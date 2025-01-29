@@ -1,14 +1,15 @@
-import React from "react"
+import React from "react";
+import styles from '../Home/Home.module.css';
 
 function Home() {
-    return(
-
-        <>
-            <h1>This is the home page</h1>
-        </>
-
-    )
+    return (
+        <div className={styles.container}>
+            <h1 className={styles.header}>Tavern Keeper</h1>
+            <div className={styles.background}>
+                <img src="/assets/home.png" alt="Cool home" className={styles.pic}/>
+            </div>
+        </div>
+    );
 }
 
-
-export default Home
+export default Home;

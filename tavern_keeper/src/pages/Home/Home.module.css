@@ -1,0 +1,28 @@
+.container {
+    position: relative;
+    height: 100vh; /* Full viewport height */
+    width: 100vw; /* Full viewport width */
+    overflow: hidden; /* Prevents any accidental overflow */
+}
+
+.background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    z-index: -1; /* Ensures the background is behind other content */
+}
+
+.pic {
+    height: 100vh;
+    width: 100vw;
+    object-fit: fill;
+    zoom: 0.9;
+}
+.header {
+    text-align: center;
+    color: red;
+    z-index: 1; /* Ensures the header stays above the background */
+    position: relative;
+}
