@@ -5,7 +5,7 @@ function Home() {
     return (
         <div className={styles.container}>
             <h1 className={styles.header}>Tavern Keeper</h1>
-            <h2>Testing to see if it pushes to vercel</h2>
+            <h2>Re-Testing to see if it pushes to vercel</h2>
         </div>
     );
 }
