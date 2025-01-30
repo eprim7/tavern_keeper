@@ -5,7 +5,7 @@ function Home() {
     return (
         <div className={styles.container}>
             <h1 className={styles.header}>Tavern Keeper</h1>
-            <h2>Third try is the charm</h2>
+            <h2>Wait I think I actually got it</h2>
         </div>
     );
 }
