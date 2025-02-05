@@ -1,5 +1,5 @@
 import Header from "../../components/Header/Header"
-import styles from "./Login.module.css"
+import styles from "./Signin.module.css"
 import { Link } from "react-router-dom"
 
 function Signin() {
