@@ -7,7 +7,7 @@ function Home() {
         <>
             <Header />
             <div className={styles.hero}>
-                <h1 className={styles.h1}>Create, organize, and store your world settings.</h1>
+                <h1 className={styles.h1}>Create, organize, and store your world settings. kenny</h1>
             </div>
 
             <div className={styles.content}>
