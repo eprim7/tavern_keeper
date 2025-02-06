@@ -37,7 +37,7 @@ a {
     padding: 0 24px;
 }
 
-.nav-menu {
+.navMenu {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -101,7 +101,7 @@ a {
         transform: translateY(-8px) rotate(-45deg);
     }
 
-    .nav-menu {
+    .navMenu {
         display: none;
         position: fixed;
         left: -100%;
@@ -117,7 +117,7 @@ a {
         align-items: center;
     }
 
-    .nav-menu.active {
+    .navMenu.active {
         left: 0;
         display: flex;
     }
