@@ -1,50 +1,47 @@
 .hero {
     position: relative;
     width: 100%;
-    height: 100vh;
+    height: 89vh;
     background-image: url("/public/assets/world.png");
-    background-size: 60% 80%;
+    background-size: 60% 75%;
     background-position: center;
     background-repeat: no-repeat;
     display: flex;
-    align-items: flex-start;
-    justify-content: flex-start;
+    flex-direction: column; /* Ensures child elements stack properly */
+    align-items: center;
+    justify-content: center; /* Centers children vertically */
     text-align: center;
     color: white;
+    background-color: rgba(0, 0, 0, 0.4);
+
 }
 .hero::before {
     content: "Start the journey by creating your worlds here";
     font-size: 2.5rem;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
     text-align: center;
-    padding-top: 2rem;
-    color: black;
-    font-weight: bold;
+    color: red;
     position: absolute;
+    top: 0; /* Moves the text closer to the top */
+    left: 50%;
+    transform: translateX(-50%); /* Centers horizontally */
     width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.4);
-    padding-top: 5px;
+    padding: 10px;
 }
 .card {
     border: 2px solid white;
-    width: 10%;
-    height: 40%;
-    background-color: rgba(255, 255, 255, 0.2);
-    padding: 1rem;
+    width: 80%;
+    max-width: 300px;
+    height: auto;
+    padding: 1.5rem;
     display: flex;
     align-items: center;
     justify-content: center;
-    position: relative;
-    margin-left: 23%;
-    margin-top: 15%;
+    text-align: center;
     border-radius: 40px;
     cursor: pointer;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-.card:hover{
-    transform: translateY(-5px);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+    background-color: rgba(255, 255, 255, 0.2);
+    margin: 0; /* Remove margin-top */
 }
 .h3{
     font-weight: bold;
@@ -53,4 +50,29 @@
 }
 .link{
     color: white;
+}
+.h2{
+    color: black;
+}
+@media (max-width: 768px) {
+    .hero::before {
+        font-size: 1.8rem;
+    }
+    .h3 {
+        font-size: 1.5em;
+    }
+}
+@media (max-width: 480px) {
+    .hero::before {
+        font-size: 1.4rem;
+        padding: 5px;
+    }
+    .card {
+        width: 90%;
+        max-width: 250px;
+        margin-top: 20%;
+    }
+    .h3 {
+        font-size: 1.2em;
+    }
 }
