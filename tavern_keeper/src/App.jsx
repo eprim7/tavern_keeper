@@ -6,6 +6,7 @@ import Account from './pages/Account/Account';
 import Community from './pages/Community/Community';
 import Signin from './pages/Signin/Signin';
 import Register from './pages/Register/Register';
+import WorldOverview from './pages/WorldOverview/WorldOverview';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Route path='/community' element={<Community />}/>
         <Route path='/signin' element={<Signin />}/>
         <Route path='/register' element={<Register />}/>
+        <Route path='/worldOverview' element={<WorldOverview />}/>
 
       </Routes>
     </Router>

@@ -1,0 +1,20 @@
+.aside{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 9%;
+    height: 40%;
+    margin-left: 10%;
+    margin-top: 5%;
+    background-color: rgba(0,0,0,0.8);
+    border-radius: 25px;
+    margin-bottom: 2%;
+}
+.icon {
+    font-size: 65px;
+    color: white;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    cursor: pointer;
+}

@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import styles from "./Header.module.css";
 import { BiHome } from "react-icons/bi";
 import { BiWorld } from "react-icons/bi";
-import { FaRegUserCircle } from "react-icons/fa";
+// import { FaRegUserCircle } from "react-icons/fa"; used for the account page, which will be used later
 import { GrGroup } from "react-icons/gr";
 import { CiLogin } from "react-icons/ci";
 
@@ -40,7 +40,6 @@ function Header() {
           <li className={styles['nav-item']}><Link to="/" className={styles['nav-link']} title="Home" onClick={handleNavLinkClick}><BiHome /></Link></li>
           <li className={styles['nav-item']}><Link to="/world" className={styles['nav-link']} title="World" onClick={handleNavLinkClick}><BiWorld /></Link></li>
           <li className={styles['nav-item']}><Link to="/community" className={styles['nav-link']} title="Community" onClick={handleNavLinkClick}><GrGroup /></Link></li>
-          <li className={styles['nav-item']}><Link to="/account" className={styles['nav-link']} title="Account" onClick={handleNavLinkClick}><FaRegUserCircle /></Link></li>
           <li className={styles['nav-item']}>
             <p className={styles['nav-link']} title="sign in"><Link to="/signin" onClick={handleNavLinkClick}><CiLogin /></Link></p>
           </li>
