@@ -13,12 +13,13 @@ import Organizations from './subpages/Organizations/Organization';
 import Locations from './subpages/Locations/Locations';
 import Timelines from './subpages/Timelines/Timelines';
 import Miscellaneous from './subpages/Miscellaneous/Miscellaneous';
-
+import PageNotFound from './pages/404/404';
 function App() {
   return (
     <Router>
       <Routes>
         <Route path="/" index element={<Home />}/>
+        <Route path="*" element={<PageNotFound />} />
         <Route path='/world' element={<World />}/>
         <Route path='/account' element={<Account />}/>
         <Route path='/community' element={<Community />}/>

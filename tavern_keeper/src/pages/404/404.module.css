@@ -1,0 +1,72 @@
+.pageContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;  /* Takes up full viewport height */
+    width: 100%;  /* Takes up full width of the screen */
+    text-align: center;
+    background: url('../../../public/assets/lost-map.png') no-repeat center center;  /* Center the image */
+    background-size: contain;  /* Ensures the image covers the container fully */
+    background-position: center center;  /* Keeps the image centered */
+    color: white;
+    padding: 20px;
+    backdrop-filter: blur(5px);
+    border-radius: 15px;
+    position: relative;
+    min-height: 100vh;  /* Ensures at least full viewport height */
+}
+
+@media (max-width: 1200px) {
+    .pageContainer {
+        background-size: cover;  /* Keeps it responsive even on smaller screens */
+        padding: 15px;  /* Adjust padding for smaller screens */
+    }
+}
+
+@media (max-width: 768px) {
+    .pageContainer {
+        background-size: cover;
+        padding: 10px;  /* Reduce padding on smaller screens */
+    }
+}
+
+@media (max-width: 480px) {
+    .pageContainer {
+        background-size: cover;  /* Ensure full coverage even on smaller phones */
+        padding: 5px;  /* Further reduce padding for very small screens */
+    }
+}
+
+.h1 {
+    font-size: 2.2rem;
+    font-weight: bold;
+    text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.7);
+    margin-bottom: 15px;
+}
+
+.p {
+    font-size: 1.2rem;
+    max-width: 600px;
+    opacity: 0.8;
+    text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
+    margin-bottom: 20px;
+}
+
+.link {
+    display: inline-block;
+    padding: 12px 20px;
+    background: linear-gradient(45deg, #ff8c00, #ffcc00);
+    color: black;
+    text-decoration: none;
+    font-size: 1.2rem;
+    font-weight: bold;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(255, 204, 0, 0.5);
+    transition: all 0.3s ease-in-out;
+}
+
+.link:hover {
+    background: linear-gradient(45deg, #ffcc00, #ff8c00);
+    transform: scale(1.05);
+}
