@@ -7,9 +7,9 @@
     background-position: center;
     background-repeat: no-repeat;
     display: flex;
-    flex-direction: column; /* Ensures child elements stack properly */
+    flex-direction: column;
     align-items: center;
-    justify-content: center; /* Centers children vertically */
+    justify-content: center;
     text-align: center;
     color: white;
     background-color: rgba(0, 0, 0, 0.4);
@@ -19,11 +19,11 @@
     content: "Start the journey by creating your worlds here";
     font-size: 2.5rem;
     text-align: center;
-    color: red;
+    color: green;
     position: absolute;
-    top: 0; /* Moves the text closer to the top */
+    top: 0;
     left: 50%;
-    transform: translateX(-50%); /* Centers horizontally */
+    transform: translateX(-50%);
     width: 100%;
     padding: 10px;
 }
@@ -41,7 +41,7 @@
     cursor: pointer;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     background-color: rgba(255, 255, 255, 0.2);
-    margin: 0; /* Remove margin-top */
+    margin: 0;
 }
 .h3{
     font-weight: bold;

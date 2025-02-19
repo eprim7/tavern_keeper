@@ -26,7 +26,6 @@
     font-size: 1rem;
     transition: color 0.3s ease-in-out, text-shadow 0.3s ease-in-out;
 }
-
 .icon {
     font-size: 2.4rem;
     color: white;
@@ -41,8 +40,7 @@
     text-shadow: 0px 0px 10px rgba(255, 204, 0, 0.8);
     transform: scale(1.1);
 }
-
-button {
+.button {
     margin-top: 20px;
     padding: 10px 20px;
     background: linear-gradient(45deg, #ff8c00, #ffcc00);
@@ -53,8 +51,7 @@ button {
     cursor: pointer;
     transition: all 0.3s ease-in-out;
 }
-
-button:hover {
+.button:hover {
     background: linear-gradient(45deg, #ffcc00, #ff8c00);
     transform: scale(1.05);
 }
@@ -66,7 +63,6 @@ button:hover {
     transition: font-size 0.3s ease-in-out;
     font-weight: bold;
 }
-
 @media (max-width: 1024px) {
     .aside {
         width: 20%;
@@ -82,7 +78,6 @@ button:hover {
         font-size: 0.9rem;
     }
 }
-
 @media (max-width: 768px) {
     .aside {
         width: 25%;  
@@ -99,7 +94,6 @@ button:hover {
         font-size: 0.7rem;
     }
 }
-
 @media (max-width: 480px) {
     .aside {
         width: 30%;

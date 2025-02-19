@@ -29,7 +29,7 @@ function Sidebar() {
             <Link to='/worldOverview/miscellaneous' className={styles.link}>
                 <MdMiscellaneousServices className={styles.icon} /> <span>Misc.</span>
             </Link>
-            <button>Submit</button>
+            <button className={styles.button}>Submit</button>
 
         </aside>
     );

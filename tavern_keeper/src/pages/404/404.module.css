@@ -3,38 +3,38 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 100vh;  /* Takes up full viewport height */
-    width: 100%;  /* Takes up full width of the screen */
+    height: 100vh;
+    width: 100%;
     text-align: center;
-    background: url('../../../public/assets/lost-map.png') no-repeat center center;  /* Center the image */
-    background-size: contain;  /* Ensures the image covers the container fully */
-    background-position: center center;  /* Keeps the image centered */
+    background: url('../../../public/assets/lost-map.png') no-repeat center center;
+    background-size: contain;
+    background-position: center center;
     color: white;
     padding: 20px;
     backdrop-filter: blur(5px);
     border-radius: 15px;
     position: relative;
-    min-height: 100vh;  /* Ensures at least full viewport height */
+    min-height: 100vh;
 }
 
 @media (max-width: 1200px) {
     .pageContainer {
-        background-size: cover;  /* Keeps it responsive even on smaller screens */
-        padding: 15px;  /* Adjust padding for smaller screens */
+        background-size: cover;
+        padding: 15px;
     }
 }
 
 @media (max-width: 768px) {
     .pageContainer {
         background-size: cover;
-        padding: 10px;  /* Reduce padding on smaller screens */
+        padding: 10px;
     }
 }
 
 @media (max-width: 480px) {
     .pageContainer {
-        background-size: cover;  /* Ensure full coverage even on smaller phones */
-        padding: 5px;  /* Further reduce padding for very small screens */
+        background-size: cover;
+        padding: 5px;
     }
 }
 

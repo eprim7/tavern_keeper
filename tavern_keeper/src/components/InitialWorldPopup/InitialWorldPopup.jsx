@@ -1,5 +1,4 @@
 import styles from './InitialWorldPopup.module.css';
-
 const InitialWorldPopup = ({ closeModal}) => {
     return(
 
@@ -7,7 +6,7 @@ const InitialWorldPopup = ({ closeModal}) => {
             <div className={styles.modalBackground}>
                 <div className={styles.modalContainer}>
                     <div className={styles.titleCloseBtn}>
-                        <button onClick={() => closeModal(false)}> X </button>
+                        <button onClick={() => closeModal(false)} className={styles.button}> X </button>
                     </div>
                     <div className={styles.title}>
                         <h1 className={styles.h1}>Create Your World</h1>
@@ -24,7 +23,7 @@ const InitialWorldPopup = ({ closeModal}) => {
                     <div className={styles.body}>
                         <label htmlFor="worldGenre" className={styles.label}>World Genre</label>
                         <select name="worldGenre" id="worldGenre" className={styles.worldGenre}>
-                         <option value="Select" disabled hidden selected>Select an Option</option>
+                         <option value="Select" disabled hidden selected>Select a Genre</option>
                             <option value="Sci-Fi">Sci-Fi</option>
                             <option value="darkFantasy">Dark Fantasy</option>
                             <option value="Comedy">Comedy</option>
@@ -33,7 +32,7 @@ const InitialWorldPopup = ({ closeModal}) => {
                     </div>
                     <div className={styles.footer}>
                         <button onClick={() => closeModal(false)} className={styles.cancelBtn}>Cancel</button>
-                        <button>Submit</button>
+                        <button onClick={() => closeModal(false)}>Submit</button>
                     </div>
                 </div>
             </div>

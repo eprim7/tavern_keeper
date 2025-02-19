@@ -1,0 +1,59 @@
+.h1 {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 2rem;
+}
+.controlsWrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    gap: 20px;
+}
+.searchWrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.search {
+    width: 300px;
+    height: 40px;
+    padding: 0 10px;
+    border-radius: 20px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+    border: 1px solid #ff8c00;
+}
+.search:focus{
+    outline: none;
+    border: 2px solid #ff8c00;
+}
+.button {
+    margin-left: 10px;
+    padding: 10px 20px;
+    background: linear-gradient(45deg, #ff8c00, #ffcc00);
+    border: none;
+    border-radius: 10px;
+    font-size: 1rem;
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+.button:hover {
+    background: linear-gradient(45deg, #ffcc00, #ff8c00);
+}
+.worldGenre {
+    padding: 10px;
+    width: 250px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+    background-color: #fff;
+    cursor: pointer;
+    border: 1px solid #ff8c00;
+}
+.worldGenre:focus {
+    outline: none;
+    border: 2px solid #ff8c00;
+}
+  
