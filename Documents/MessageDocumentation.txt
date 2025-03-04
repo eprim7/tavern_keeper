@@ -1,0 +1,162 @@
+Adding a world
+{ 
+	"title": "string",
+	"description": "string", 
+	"genre": "string", 
+	"isPublic": "boolean", 
+	"created": "Date", 
+	"likes": "int", 
+	"entries": [“Entries”]
+}
+
+Example
+{ 
+	"title": "Mystic Realms",
+	"description": A world filled with magic and mystery", 
+	"genre": "Fantasy", 
+	"isPublic": true, 
+	"created": "3/3/25", 
+	"likes": 0, 
+	"Entries": []
+}
+
+Response
+{ 
+	"success": true,
+	"message": "World successfully added", 
+	"worldID": w123, 
+}
+
+Adding a Character
+{ 
+	"portrait": "string (URL/Base64)",
+	"name": "string", 
+	"description": "string" 
+}
+
+Example
+{ 
+	"portrait": "https://example.com/images/char456.png",
+	"name": "Bob", 
+	"description": "A mage" 
+}
+
+Response
+{ 
+	"success": true,
+	"message": "Character successfully added", 
+	"characterID": c123 
+}
+
+Adding a User
+{ 
+	 "username": "string",
+	 "description": "string",
+	 "profilePicture": "string (URL/Base64)",
+	 "worlds": ["Worlds"],
+	 "email": "string" 
+}
+
+Example
+{ 
+	"username": "Random1",
+	"description": "Enjoys map making",
+	"profilePicture": "https://example.com/images/profile123.png",
+	"worlds": ["w123"],
+	"email": "adventurer@example.com" 
+}
+
+Response
+{ 
+	"success": true,
+	"message": "User successfully registered", 
+	"userID": u123 
+}
+
+Adding an Entry
+{
+	 "name": "string",
+	 "description": "string" 
+}
+
+Example
+{
+	 "name": "The Dark Forest",
+	 "description": "A dense and eerie forest full of unknown creatures." 
+}
+
+Response
+{ 
+	"success": true, 
+	"message": "Entry successfully added.",
+	"entryId": "e567" 
+}
+
+Adding an Event
+{ 
+	"name": "string",
+	"description": "string", 
+	"startDate": "string (ISO 8601)",
+	"endDate": "string (ISO 8601)" 
+}
+
+Example
+{ 
+	"name": "The Great Battle", 
+	"description": "A legendary battle between the elves and orcs.", 
+	"startDate": "2025-06-10T08:00:00Z",
+	"endDate": "2025-06-11T18:00:00Z"
+}
+
+Response
+{ 
+	"success": true,
+	"message": "Event successfully added.", 
+	"eventId": "ev678" 
+}
+
+Adding a Map
+{
+	"image": "string (URL/Base64)", 
+	"pins": [Pins],
+	"name": "string",
+	"description": "string"
+}
+
+Example
+{ 
+	"image": "https://example.com/images/map123.png",
+	"pins": ["p001", "p002"], 
+	"name": "Kingdom of Eldoria",
+	"description": "A vast kingdom with many hidden treasures."
+}
+
+Response
+{ 
+	"success": true,
+	"message": "Map successfully added.",
+	"mapId": "m999" 
+}
+
+Adding a pin to a map
+{ 
+	"name": "string", 
+	"description": "string", 
+	"x": "int", 
+	"y": "int" 
+}
+
+Example
+{
+	"name": "Ancient Ruins", 
+	"description": "A forgotten place of power.",
+	"x": 450, 
+	"y": 320 
+}
+
+Response
+{ 
+	"success": true,
+	"message": "Pin successfully added.", 
+	"pinId": "p123" 
+}
