@@ -30,12 +30,6 @@ function PageNotFound(){
 
             <ul>
               <li>Before</li>
-              {dataList.map((dt) => (
-                <li>
-                  <p>{dt.id}</p>
-                  <p>{dt.url}</p>
-                </li>
-              ))}
               <li>After</li>
             </ul>
         </div>
