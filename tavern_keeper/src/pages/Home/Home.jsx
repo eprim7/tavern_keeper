@@ -1,9 +1,7 @@
 import React from "react";
 import styles from '../Home/Home.module.css';
 import Header from "../../components/Header/Header";
-import { getData } from "../../api/data";
 
-const test = getData();
 
 function Home() {
     return (
@@ -28,15 +26,6 @@ function Home() {
                 </div>
             </div>
 
-            <div>
-                <ul>
-                    {test.map((item) => (
-                        <li>
-                            <p>{item.id}</p>
-                        </li>
-                ))}
-                </ul>
-            </div>
         </>
     );
 }
