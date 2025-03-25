@@ -7,6 +7,7 @@ function WorldOverview(){
         <>
         <Header />
         <h1 className={styles.title}>Welcome username</h1>
+
         <Sidebar />
         </>
     )

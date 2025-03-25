@@ -99,6 +99,7 @@
     font-size: 1.7rem;
     text-align: center;
     color: #444;
+    margin-bottom: 5px;
 }
 .modalContainer .footer{
     flex: 20%;

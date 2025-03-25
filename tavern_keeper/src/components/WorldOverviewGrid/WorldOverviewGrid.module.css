@@ -1,0 +1,42 @@
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Adjust column size based on available space */
+  gap: 20px; /* Reduced gap for better spacing on smaller screens */
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+.item {
+  background: #222;
+  color: white;
+  padding: 15px;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 2px 2px 5px rgba(255, 255, 255, 0.2);
+  font-size: 1.2rem;
+  height: 200px; /* Keeps a uniform height */
+}
+/* Ensure responsiveness for smaller screens */
+@media (max-width: 900px) {
+  .grid {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+  }
+  
+  .item {
+    font-size: 1rem;
+    padding: 12px;
+  }
+}
+@media (max-width: 600px) {
+  .grid {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 10px;
+}
+.item {
+    font-size: 0.9rem;
+    height: 180px; /* Slightly smaller boxes for compact screens */
+    padding: 10px;
+}
+}

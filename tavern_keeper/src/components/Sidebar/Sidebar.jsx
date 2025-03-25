@@ -8,6 +8,7 @@ import { FaHistory } from "react-icons/fa";
 import { MdMiscellaneousServices } from "react-icons/md";
 import { Link } from "react-router-dom";
 
+
 function Sidebar() {
     return (
         <aside className={styles.aside}>
@@ -21,10 +22,10 @@ function Sidebar() {
                 <GoOrganization className={styles.icon} /> <span>Orgs.</span>
             </Link>
             <Link to='/worldOverview/locations' className={styles.link}>
-                <GrLocationPin className={styles.icon} /> <span>Locations</span>
+                <GrLocationPin className={styles.icon} /> <span>Lctn.</span>
             </Link>
             <Link to='/worldOverview/timelines' className={styles.link}>
-                <FaHistory className={styles.icon} /> <span>Timelines</span>
+                <FaHistory className={styles.icon} /> <span>Tlne.</span>
             </Link>
             <Link to='/worldOverview/miscellaneous' className={styles.link}>
                 <MdMiscellaneousServices className={styles.icon} /> <span>Misc.</span>

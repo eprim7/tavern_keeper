@@ -30,6 +30,10 @@ const InitialWorldPopup = ({ closeModal}) => {
                             <option value="Horror">Horror</option>
                         </select>
                     </div>
+                    <div className={styles.body}>
+                        <input type="checkbox" id='checkbox' />
+                        <label htmlFor="checkbox" className={styles.label}>Public</label>
+                    </div>
                     <div className={styles.footer}>
                         <button onClick={() => closeModal(false)} className={styles.cancelBtn}>Cancel</button>
                         <button onClick={() => closeModal(false)}>Submit</button>

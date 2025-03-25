@@ -1,12 +1,42 @@
 import Header from "../../components/Header/Header"
 import Sidebar from "../../components/Sidebar/Sidebar"
-function Locations(){
-    return(
+import styles from "../Characters/Characters.module.css"
+import WorldOverviewGrid from "../../components/WorldOverviewGrid/WorldOverviewGrid"
+import { useNavigate } from "react-router-dom";
 
+function Locations(){
+    const navigate = useNavigate();
+
+    const loadPage = () => {
+        navigate("/mapPopup");
+    };
+
+
+
+    return(
+        
         <>
             <Header />
-            <Sidebar />
-            <h1>This is the Locations page</h1>
+            
+            <div className={styles.container}>
+                <div className={styles.sidebar}>
+                    <Sidebar />
+                </div>
+
+                <div className={styles.content}>
+                    <button className={styles.button} onClick={loadPage}>Add new Locations</button>
+
+                    <WorldOverviewGrid>
+                        <div>Name of Location</div>
+                        <div>Name of Location</div>
+                        <div>Name of Location</div>
+                        <div>Name of Location</div>
+                        <div>Name of Location</div>
+                        <div>Name of Location</div>
+                    </WorldOverviewGrid>
+                </div>
+            </div>
+
         </>
     )
 }

@@ -2,3 +2,7 @@
     text-align: center;
     margin-top: 10px;
 }
+.container{
+    margin-left: 35%;
+    z-index: 1;
+}
