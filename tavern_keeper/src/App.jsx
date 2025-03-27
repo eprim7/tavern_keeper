@@ -14,6 +14,7 @@ import Locations from './subpages/Locations/Locations';
 import Timelines from './subpages/Timelines/Timelines';
 import Miscellaneous from './subpages/Miscellaneous/Miscellaneous';
 import PageNotFound from './pages/404/404';
+import Test from './pages/Test/Test';
 function App() {
   return (
     <Router>
@@ -32,6 +33,8 @@ function App() {
           <Route path='/worldOverview/locations' element={<Locations />}/>
           <Route path='/worldOverview/timelines' element={<Timelines />}/>
           <Route path='/worldOverview/miscellaneous' element={<Miscellaneous />}/>
+          <Route path='/Test/Test' element={<Test />}/>
+
 
       </Routes>
     </Router>
