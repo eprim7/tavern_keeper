@@ -4,7 +4,7 @@ import { getData } from "../../api/data";
 import { useState } from "react";
 
 function Test(){
-  const [dataList, setDataList] = useState([]);
+  const [dataList, setDataList] = getData();
 
   const fetchData = async () => {
     setDataList(getData);
@@ -20,7 +20,7 @@ function Test(){
             </p>
             <ul>
               <li><p>before</p></li>
-              
+              <li>{dataList.length}</li>
               <li><p>after</p></li>
             </ul>
             <Link to="/" className={styles.link}>
