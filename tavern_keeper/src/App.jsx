@@ -33,12 +33,10 @@ function App() {
           <Route path='/worldOverview/locations' element={<Locations />}/>
           <Route path='/worldOverview/timelines' element={<Timelines />}/>
           <Route path='/worldOverview/miscellaneous' element={<Miscellaneous />}/>
-          <Route path='/Test' element={<Test />}/>
-
-
-      </Routes>
-    </Router>
-  );
+          <Route path='/Test' element={<Test />}/>   
+        </Routes>
+      </Router> 
+)
 }
 
 export default App;
