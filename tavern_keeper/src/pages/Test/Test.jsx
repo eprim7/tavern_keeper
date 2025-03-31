@@ -1,19 +1,17 @@
 import { Link } from "react-router-dom"
 import styles from "../Test/Test.module.css"
-import { getData } from "../../api/data"
-import { useEffect } from "react";
+import { getData } from "../../api/data";
+import { useEffect, useState } from "react";
 
-
-
-function PageNotFound(){
+function Test(){
   const [dataList, setDataList] = useState([]);
 
   useEffect(() => {
-    retrieveData();
+    testFunc();
   }, []);
 
-  const retrieveData = async () => {
-    setDataList(await getData);
+  async function testFunc() {
+    setDataList(await getData());
   }
 
     return(
@@ -24,16 +22,19 @@ function PageNotFound(){
             <p className={styles.p}>
               This page doesn’t exist... or maybe it was swallowed by the void. 
             </p>
+            <ul>
+              <li><p>before</p></li>
+              <li>{dataList.length}</li>
+              {dataList.map((dt) => (
+                <li>{dt.url}</li>
+              ))}
+              <li><p>after</p></li>
+            </ul>
             <Link to="/" className={styles.link}>
               Return to Safety
             </Link>
-
-            <ul>
-              <li>Before</li>
-              <li>After</li>
-            </ul>
         </div>
     )
 }
 
-export default PageNotFound
+export default Test

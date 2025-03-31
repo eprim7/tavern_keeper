@@ -1,11 +1,12 @@
 import supabase from "./supabase-client";
 
 export async function getData() {
-    const {data, error} = supabase.from("ProfilePicture").select("*").eq("id", 0);
+    const {data, error} = await supabase.from("ProfilePicture").select("*");
 
-    if(error) {
-        console.log("Everything Broke!!!");
+    if (error) {
+        console.log("Everything Broke!" + error);
     } else {
         return data;
     }
 }
+

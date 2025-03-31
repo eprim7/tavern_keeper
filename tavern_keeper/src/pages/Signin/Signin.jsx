@@ -1,31 +1,55 @@
-import Header from "../../components/Header/Header"
-import styles from "./Signin.module.css"
-import { Link } from "react-router-dom"
+import Header from "../../components/Header/Header";
+import styles from "./Signin.module.css";
+import { useGoogleLogin } from '@react-oauth/google';
+import axios from 'axios';
+import React, { useState, useEffect } from 'react';
+import { FcGoogle } from "react-icons/fc";
+import { useNavigate } from 'react-router-dom';
 
 function Signin() {
+  const [user, setUser] = useState([]);
+  const [profile, setProfile] = useState(null);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const navigate = useNavigate();
 
-    return(
-        <>
-            <Header />
-            <h1 className={styles.h1}>Welcome to Tavern Keeper</h1>
-            <div className={styles.container}>
-                <h2 className={styles.h2}>Please enter your email and password</h2>
-                <label htmlFor="email" className={styles.label}><b>Email:</b></label>
-                <br />
-                <input type="email" placeholder="Example@gmail.com" className={styles.email}/>
-                <br />
-                <br />
-                <label htmlFor="password" className={styles.label}><b>Password:</b></label>
-                <br />
-                <input type="password" className={styles.password}/>
-                <br />
-                <br />
-                <button className={styles.button}>Sign In</button>
-            </div>
+  const login = useGoogleLogin({
+    onSuccess: (codeResponse) => setUser(codeResponse),
+    onError: (error) => console.log('Login Failed:', error),
+  });
 
-            <h2 className={styles.h2}><Link to="/register">Don't have an account?</Link></h2>
-        </>
-    )
+  useEffect(() => {
+    if (user?.access_token) {
+      axios
+        .get(`https://www.googleapis.com/oauth2/v1/userinfo?access_token=${user.access_token}`, {
+          headers: {
+            Authorization: `Bearer ${user.access_token}`,
+            Accept: 'application/json',
+          },
+        })
+        .then((res) => {
+          setProfile(res.data); // Update state
+          localStorage.setItem("email", res.data.email); // ✅ Use `res.data.email` directly
+          localStorage.setItem("isLoggedIn", "true"); // Set login status
+          setIsLoggedIn(true); // Update state
+          navigate("/"); // Redirect to homepage on successful login
+        })
+        .catch((err) => console.log(err));
+    }
+  }, [user, navigate]);
+
+  return (
+    <>
+      <Header />
+      <div>
+        <h1 className={styles.header}>Please Login to access all of our features</h1>
+        <br />
+        <br />
+        <button onClick={login} className={styles.button}>
+          Sign in with Google <FcGoogle />
+        </button>
+      </div>
+    </>
+  );
 }
 
-export default Signin
+export default Signin;

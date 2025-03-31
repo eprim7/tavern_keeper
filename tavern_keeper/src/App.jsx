@@ -14,6 +14,9 @@ import Locations from './subpages/Locations/Locations';
 import Timelines from './subpages/Timelines/Timelines';
 import Miscellaneous from './subpages/Miscellaneous/Miscellaneous';
 import PageNotFound from './pages/404/404';
+import Test from './pages/Test/Test';
+
+
 function App() {
   return (
     <Router>
@@ -26,16 +29,17 @@ function App() {
         <Route path='/signin' element={<Signin />}/>
         <Route path='/register' element={<Register />}/>
         <Route path='/worldOverview' element={<WorldOverview />}/>
+        <Route path='/Test' element={<Test />}/>   
+
           <Route path='/worldOverview/maps' element={<Maps />}/>
           <Route path='/worldOverview/characters' element={<Characters />}/>
           <Route path='/worldOverview/organizations' element={<Organizations />}/>
           <Route path='/worldOverview/locations' element={<Locations />}/>
           <Route path='/worldOverview/timelines' element={<Timelines />}/>
           <Route path='/worldOverview/miscellaneous' element={<Miscellaneous />}/>
-
-      </Routes>
-    </Router>
-  );
+        </Routes>
+      </Router> 
+)
 }
 
 export default App;
