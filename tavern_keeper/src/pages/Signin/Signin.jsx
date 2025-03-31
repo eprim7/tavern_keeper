@@ -27,8 +27,8 @@ function Signin() {
           },
         })
         .then((res) => {
-          setProfile(res.data);
-          localStorage.setItem("email", profile.email);
+          setProfile(res.data); // Update state
+          localStorage.setItem("email", res.data.email); // ✅ Use `res.data.email` directly
           localStorage.setItem("isLoggedIn", "true"); // Set login status
           setIsLoggedIn(true); // Update state
           navigate("/"); // Redirect to homepage on successful login

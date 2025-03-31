@@ -14,10 +14,10 @@ function Header() {
   const [isActive, setIsActive] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
-  const navigate = useNavigate(); // Initialize navigate
+  const navigate = useNavigate();
 
+  // Check login status on mount
   useEffect(() => {
-    // Check login status on mount
     const loggedInStatus = localStorage.getItem("isLoggedIn") === "true";
     setIsLoggedIn(loggedInStatus);
   }, []);
@@ -37,11 +37,10 @@ function Header() {
   const handleLogout = () => {
     console.log("Logging out...");
     googleLogout();
-    localStorage.setItem("isLoggedIn", "false");
-    console.log(localStorage.getItem("isLoggedIn"))
-    setIsLoggedIn(false);
+    localStorage.removeItem("isLoggedIn");
+    setIsLoggedIn(false); // Immediately update the state on logout
     setShowDropdown(false);
-    navigate('/signin')
+    navigate('/signin');
   };
 
   return (
@@ -90,7 +89,7 @@ function Header() {
                 </Link>
               )}
             </div>
-            {showDropdown && <AccountDropDown handleLogout={handleLogout} />}  {/* ✅ Pass handleLogout as prop */}
+            {showDropdown && <AccountDropDown handleLogout={handleLogout} />}
           </li>
         </ul>
       </nav>
