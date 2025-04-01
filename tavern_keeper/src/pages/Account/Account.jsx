@@ -1,11 +1,14 @@
 import Header from "../../components/Header/Header"
+import styles from "../Account/Account.module.css";
 
 function Account() {
 
     return(
         <>
-        <Header />
-            <h1>Account page</h1>
+            <Header />
+            <div className={styles.bannerwrapper}>
+
+            </div>
         </>
     )
 }
