@@ -27,7 +27,6 @@
     gap: 20px;
     padding: 20px;
 }
-
 @media (max-width: 768px) {
     .sidebar {
         width: 35%; 

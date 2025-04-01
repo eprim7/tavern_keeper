@@ -5,7 +5,6 @@ import World from './pages/World/World';
 import Account from './pages/Account/Account';
 import Community from './pages/Community/Community';
 import Signin from './pages/Signin/Signin';
-import Register from './pages/Register/Register';
 import WorldOverview from './pages/WorldOverview/WorldOverview';
 import Maps from './subpages/Maps/Maps';
 import Characters from './subpages/Characters/Characters';
@@ -27,7 +26,6 @@ function App() {
         <Route path='/account' element={<Account />}/>
         <Route path='/community' element={<Community />}/>
         <Route path='/signin' element={<Signin />}/>
-        <Route path='/register' element={<Register />}/>
         <Route path='/worldOverview' element={<WorldOverview />}/>
         <Route path='/Test' element={<Test />}/>   
 

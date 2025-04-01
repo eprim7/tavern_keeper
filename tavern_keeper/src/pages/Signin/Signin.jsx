@@ -12,6 +12,7 @@ function Signin() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const navigate = useNavigate();
 
+  // signs users in
   const login = useGoogleLogin({
     onSuccess: (codeResponse) => setUser(codeResponse),
     onError: (error) => console.log('Login Failed:', error),
@@ -40,13 +41,13 @@ function Signin() {
   return (
     <>
       <Header />
-      <div>
-        <h1 className={styles.header}>Please Login to access all of our features</h1>
-        <br />
-        <br />
-        <button onClick={login} className={styles.button}>
-          Sign in with Google <FcGoogle />
-        </button>
+      <div className={styles.container}>
+          <h1 className={styles.header}>Please Login to access all the features of Tavern Keeper</h1>
+          <br />
+          <br />
+          <button onClick={login} className={styles.button}>
+            Sign in with Google <FcGoogle />
+          </button>
       </div>
     </>
   );
