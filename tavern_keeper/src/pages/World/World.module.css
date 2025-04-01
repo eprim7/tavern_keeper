@@ -54,6 +54,20 @@
 .h2{
     color: black;
 }
+.header{
+    text-align: center;
+    margin-top: 10%;
+}
+.paragraph{
+    text-align: center;
+    margin-top: 10%;
+    font-size: 1.5rem
+}
+.span{
+    color: #ff8c00;
+    cursor: pointer;
+    font-size: 1.5rem
+}
 @media (max-width: 768px) {
     .hero::before {
         font-size: 1.8rem;
