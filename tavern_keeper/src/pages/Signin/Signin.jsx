@@ -33,6 +33,7 @@ function Signin() {
           localStorage.setItem("isLoggedIn", "true");
           setIsLoggedIn(true);
           navigate("/");
+          console.log("sign in email",res.data.email)
         })
         .catch((err) => console.log(err));
     }

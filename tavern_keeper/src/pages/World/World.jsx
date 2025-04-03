@@ -1,13 +1,30 @@
 import Header from "../../components/Header/Header";
 import styles from "../World/World.module.css";
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import InitialWorldPopup from "../../components/InitialWorldPopup/InitialWorldPopup";
+import { getPlayerWorlds } from "../../api/world_accessor";
 
 function World() {
     const [isPopupOpen, setIsPopupOpen] = useState(false);
+    const [dataList, setDataList] = useState([]);
 
     let signedIn = localStorage.getItem("isLoggedIn") === "true"; // Ensure it's a boolean
+    let email = localStorage.getItem("email")
+
+    useEffect(() => {
+        if (signedIn && email) {
+            fetchWorlds();
+        }
+    }, [signedIn, email]);
+
+    async function fetchWorlds() {
+        const worlds = await getPlayerWorlds(email);
+        if(worlds){
+            setDataList(worlds);
+        }
+    }
+
 
     // This is what shows if the user is not signed in 
     if (!signedIn) {
@@ -31,6 +48,19 @@ function World() {
                     </h3>
                 </div>
                 {isPopupOpen && <InitialWorldPopup closeModal={setIsPopupOpen} />}
+
+                <div className={styles.worldList}>
+                    {dataList.length > 0 ? (dataList.map(world => (
+                        <div key={world.id} className={styles.worldCard}>
+                            <h3>{world.title}</h3>
+                            <p>{world.description}</p>
+                        </div>
+                    ))
+                ) : (
+                    <p>No worlds found</p>
+                    )
+            }
+                </div>
             </div>
         </>
     );
