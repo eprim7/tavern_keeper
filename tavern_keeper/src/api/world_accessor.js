@@ -28,3 +28,13 @@ export async function getPublicWorlds() {
         return data;
     }
 }
+
+export async function getUserByUserID(userID) {
+    const {data, error} = await supabase.from("User").select("*").eq("id", userID).single();
+
+    if(error) {
+        console.log("Failed to retrieve user data.");
+    } else {
+        return data;
+    }
+}
