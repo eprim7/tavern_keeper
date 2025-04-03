@@ -47,7 +47,8 @@ const InitialWorldPopup = ({ closeModal }) => {
                         genre: worldGenre,
                         isPublic: isWorldPublic,
                         dateCreated: new Date().toISOString(),
-                        description: worldDescription
+                        description: worldDescription,
+                        likes: 0,
                     }
                 ]);
 
