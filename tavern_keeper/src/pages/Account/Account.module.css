@@ -1,3 +1,54 @@
 .bannerwrapper {
-    
+    background: url('/public/assets/home.png') no-repeat center center;
+    background-size: cover;
+    width: 100%;
+    height: 250px;
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    gap: 50px;
+    padding: 20px;
+    color: white;
+}
+.profilepicture {
+    border-radius: 50%;
+}
+.usernamewrapper {
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    gap: 15px;
+}
+.pencil {
+    padding-top: 7px;
+}
+.pencilbutton {
+    width: 2.5em;
+    height: 2.5em;
+    border: none;
+    background: white;
+    border-radius: 50%;
+}
+.pencilbutton:hover {
+    opacity: .5;
+    background: white;
+    cursor: pointer;
+}
+.contentwrapper {
+    width: 100%;
+}
+.description {
+
+}
+.profileButton {
+    background: white;
+    border: none;
+    border-radius: 50%;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+}
+.profileButton:hover {
+    opacity: .5;
+    cursor: pointer;
 }
