@@ -1,21 +1,27 @@
 import supabase from "./supabase-client";
 
-export async function getCharactersByWorldID(worldID) {
-    const {data: characterData, error: error} = await supabase.from("Characters").select("*").eq("WorldID", worldID);
+const dataOptionsMap = new Map();
 
-    if(error) {
-        console.log("Failed to retrieve character data: " + error);
-    } else {
-        return characterData;
-    }
+export class dataOptions {
+    static CHARACTERS = Symbol("CHARACTERS");
+    static EVENTS = Symbol("EVENTS");
+    static MAPS = Symbol("MAPS");
+    static PINS = Symbol("PINS");
 }
 
-export async function getEventsByWorldID(worldID) {
-    const {data: eventData, error: error} = await supabase.from("Events").select("*").eq("WorldID", worldID);
+dataOptionsMap.set(dataOptions.CHARACTERS, {table: "Characters", filter: "WorldID"});
+dataOptionsMap.set(dataOptions.EVENTS, {table: "Events", filter: "WorldID"});
+dataOptionsMap.set(dataOptions.MAPS, {table: "Maps", filter: "WorldID"});
+dataOptionsMap.set(dataOptions.PINS, {table: "Pins", filter: "MapID"});
+
+export async function getData(option, filterValue) {
+    const tmp = dataOptionsMap.get(option);
+    if(!tmp) {console.log("enum not working!");}
+    const {data, error} = await supabase.from(tmp.table).select("*").eq(tmp.filter, filterValue);
 
     if(error) {
-        console.log("Failed to retrieve Event data: " + error);
+        console.log("failed to retrieve data: " + error);
     } else {
-        return eventData;
+        return data;
     }
 }
