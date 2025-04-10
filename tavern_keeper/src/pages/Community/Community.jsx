@@ -6,6 +6,7 @@ import React, {useState, useRef} from 'react';
 import CommunityGrid from "../../components/CommunityGrid/CommunityGrid";
 import { useEffect } from "react";
 import { RiArrowDropDownLine } from "react-icons/ri";
+import { getPublicWorlds } from "../../api/world_accessor";
 
 function Community() {
   //var for dropdown
@@ -15,6 +16,7 @@ function Community() {
   const dropdownRef = useRef(null);
   const buttonRef = useRef(null);
   const submenuRef = useRef(null);
+  const [search, setSearch] = useState('');
   const openMenu = () => {
     setOpen(!open);
     if(genreOpen){
@@ -23,17 +25,34 @@ function Community() {
   }
   const openSubMenu = () => {
     setGenreOpen(!genreOpen);
+    console.log("opening sub menu")
   }
-  
+  const filterByGenre = (genre) =>  {
+    console.log("filtering by: " + genre);
+    setCommunityData(allCommunityData.filter(world => world.genre == genre));
+    setOpen(false);
+    setGenreOpen(false);
+  }
+  const filterByNew = () => {
+    console.log("filtering by: new");
+    setCommunityData(allCommunityData.sort((world, nextworld) => world.dateCreated < nextworld.dateCreated));
+    setOpen(false);
+    setGenreOpen(false);
+  }
+  const filterByLikes = () => {
+    console.log("filtering by: likes");
+    setCommunityData(allCommunityData.sort((world, nextworld) => world.likes < nextworld.likes));
+    setOpen(false);
+    setGenreOpen(false);
+  }
   function FilterDropDown () {
     //add more styling
     return (
         <div className={open ? styles.filtermenu : styles.filtermenuinactive} ref={dropdownRef}>
             <ul className={styles.dropdownbody}>
-              <DropDownItem name="Date Created" />
+              <DropDownItem name="Date Created" onClick={filterByNew}/>
               <DropDownItem name="Genre" onClick={openSubMenu} />
-              <DropDownItem name="Popularity" />
-              
+              <DropDownItem name="Popularity" onClick={filterByLikes}/>
             </ul>
         </div>
     );
@@ -56,17 +75,19 @@ function Community() {
           <SubDropDownItem name="Sci-Fi" />
           <SubDropDownItem name="Romance" />
           <SubDropDownItem name="Mystery" />
-          <SubDropDownItem name="Horror" />
+          <SubDropDownItem name="Horror"/>
           <SubDropDownItem name="Thriller" />
           <SubDropDownItem name="Nonfiction" />
         </ul>
       </div>
     )
   }
-  function SubDropDownItem (props) {
+  function SubDropDownItem ({name}) {
     return (
       <li className={styles.submenuitem}>
-        {props.name}
+        <button className={styles.innersubmenuitem} onClick={() => {filterByGenre(name); console.log("Genre button clicked");}}>
+          {name}
+        </button>
       </li>
     );
   }
@@ -74,7 +95,7 @@ function Community() {
   useEffect(() => {
     const handleClickOutside = (event) => {
         //close menu when clicking on toggle button also
-        if (!dropdownRef.current.contains(event.target) && !buttonRef.current.contains(event.target)) {
+        if (!dropdownRef.current.contains(event.target) && !buttonRef.current.contains(event.target) && !submenuRef.current.contains(event.target)) {
             setOpen(false);
             setGenreOpen(false);
         }
@@ -86,43 +107,35 @@ function Community() {
     }
 
   });
-  const [genreData, setGenreData] = useState({"name": "dummyGenres",
-    "items": [
-      {"id": 1, "name": "Fantasy"},
-      {"id": 2, "name": "Sci-Fi"},
-      {"id": 3, "name": "Romance"},
-      {"id": 4, "name": "Mystery"},
-      {"id": 5, "name": "Horror"},
-      {"id": 6, "name": "Thriller"},
-      {"id": 7, "name": "Non-Fiction"},
-    ]
-  })
-  //community data, dummy data for now
-  const [communityData, setCommunityData] = useState({"name": "dummyWorlds",
-    "items": [
-      {"id": 1, "name": "World 1", "author": "john", "genre": "fantasy"},
-      {"id": 2, "name": "World 2", "author": "jane", "genre": "sci-fi"},
-      {"id": 3, "name": "World 3", "author": "jack", "genre": "romance"},
-      {"id": 4, "name": "World 4", "author": "james", "genre": "biography"},
-      {"id": 5, "name": "World 5", "author": "mark", "genre": "horror"},
-      {"id": 6, "name": "World 6", "author": "lewis", "genre": "thriller"},
-      {"id": 7, "name": "World 7", "author": "randy", "genre": "action"},
-      {"id": 8, "name": "World 8", "author": "matt", "genre": "adventure"},
-      {"id": 9, "name": "World 9", "author": "fred", "genre": "grimdark"},
-      {"id": 10, "name": "World 10", "author": "jerry", "genre": "mystery"},
-    ]});
+  
+  //community data
+  const [allCommunityData, setAllCommunityData] = useState([]);
+  const [communityData, setCommunityData] = useState([]);
+  async function fetchPublicWorlds() {
+    const publicWorlds = await getPublicWorlds();
+    if(publicWorlds){
+        setCommunityData(publicWorlds);
+        setAllCommunityData(publicWorlds);
+    }
+  }
+  useEffect(() => {
+    if (allCommunityData.length === 0) {
+      fetchPublicWorlds();
+    }
+  }, []);
+  
     
   //pagination vars
   //takes a slice of the full list of data elements and display it on the communitygrid component
   //each time a new page clicked, the slice of data should change
-  const [itemsPerPage, setItemsPerPage] = useState(3);
+  const [itemsPerPage, setItemsPerPage] = useState(9);
   const [currentPage, setCurrentPage] = useState(1);
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = communityData.items.slice(indexOfFirstItem, indexOfLastItem);
+  const currentItems = communityData.slice(indexOfFirstItem, indexOfLastItem);
 
   //math.ceil for decimals, round up
-  const totalPages = Math.ceil(communityData.items.length / itemsPerPage);
+  const totalPages = Math.ceil(communityData.length / itemsPerPage);
   //component that returns buttons corresponding to each page
   const Pagination = ({totalPages}) => {
     let pages = [];
@@ -139,10 +152,25 @@ function Community() {
   }
 
   const updatePage = (event) => {
-    const newItemsPerPage = parseInt(event.target.value, 10);
+    const newItemsPerPage = parseInt(event.target.value);
     setItemsPerPage(newItemsPerPage);
     setCurrentPage(1);
-  };
+  }
+
+  
+  const handleInput = (event) => {
+    setSearch(event.target.value);
+  }
+  const searchWorlds = () => {
+    console.log(search);
+    if(search.trim() == ''){
+      fetchPublicWorlds();
+    } else {
+      const filteredData = allCommunityData.filter(world => world.title.toLowerCase().includes(search.toLowerCase()));
+      setCommunityData(filteredData);
+    }
+    
+  }
   return (
     <>
       <Header />
@@ -153,8 +181,9 @@ function Community() {
             type="text"
             placeholder="Search Worlds"
             className={styles.search}
+            onChange={handleInput}
           />
-          <button className={styles.button}>
+          <button className={styles.button} onClick={searchWorlds}>
             <BsSearch />
           </button>
         </div>
@@ -165,13 +194,18 @@ function Community() {
         </div>
       </div>
       <FilterDropDown />
-      <FilterSubMenu/>
+      <FilterSubMenu />
       <CommunityGrid communityData={currentItems} />
       
       <div className={styles.paginationWrapper}>
         <Pagination totalPages={totalPages}/>
         <div className={styles.selectorWrapper}>
-          <label>Worlds Per Page:</label> <input type="number" value={itemsPerPage} className={styles.selector} min="1" onChange={updatePage} max={communityData.items.length}/>
+          <label>Worlds Per Page: </label>
+          <select onChange={updatePage}>
+            <option value="9">9</option>
+            <option value="18">18</option>
+            <option value="27">27</option>
+          </select> 
         </div>
       </div>
     </>
