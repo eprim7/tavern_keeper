@@ -89,8 +89,8 @@ const InitialWorldPopup = ({ closeModal }) => {
                     />
                 </div>
                 <div className={styles.body}>
-                    <label htmlFor="worldTitle" className={styles.label}>World Description</label>
-                    <input
+                    <label htmlFor="worldTitle" className={styles.label}>Description</label>
+                    <textarea
                         type="text"
                         placeholder="World Description"
                         className={styles.nameInput}
@@ -98,16 +98,6 @@ const InitialWorldPopup = ({ closeModal }) => {
                         name="worldDescription"
                         value={worldDescription}
                         onChange={(e) => setWorldDescription(e.target.value)}
-                    />
-                </div>
-                <div className={styles.body}>
-                    <label htmlFor="worldPicture" className={styles.label}>World Picture</label>
-                    <input
-                        type="file"
-                        className={styles.pictureInput}
-                        accept="image/png, image/jpeg"
-                        id="worldPicture"
-                        name="worldPicture"
                     />
                 </div>
                 <div className={styles.body}>

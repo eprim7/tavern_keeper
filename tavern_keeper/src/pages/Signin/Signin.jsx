@@ -5,6 +5,7 @@ import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { FcGoogle } from "react-icons/fc";
 import { useNavigate } from 'react-router-dom';
+import supabase from "../../api/supabase-client";
 
 function Signin() {
   const [user, setUser] = useState([]);
@@ -17,6 +18,7 @@ function Signin() {
     onSuccess: (codeResponse) => setUser(codeResponse),
     onError: (error) => console.log('Login Failed:', error),
   });
+  
 
   useEffect(() => {
     if (user?.access_token) {
@@ -27,17 +29,53 @@ function Signin() {
             Accept: 'application/json',
           },
         })
-        .then((res) => {
+        .then(async (res) => {
           setProfile(res.data);
           localStorage.setItem("email", res.data.email);
           localStorage.setItem("isLoggedIn", "true");
           setIsLoggedIn(true);
+  
+          // Check if user already exists in Supabase
+          try {
+            const { data: existingUser, error: selectError } = await supabase
+              .from("User")
+              .select("*")
+              .eq("email", res.data.email)
+              .single(); // assuming email is unique
+  
+            if (selectError && selectError.code !== "PGRST116") {
+              // PGRST116 = "No rows found" which is okay
+              throw selectError;
+            }
+  
+            if (!existingUser) {
+              // Only insert if no user exists with that email
+              const { error: insertError } = await supabase
+                .from("User")
+                .insert({
+                  email: res.data.email,
+                  userName: '',
+                  description: ''
+                });
+  
+              if (insertError) {
+                console.error('Error inserting user:', insertError.message);
+              }
+            } else {
+              console.log("User already exists with email:", res.data.email);
+            }
+          } catch (error) {
+            console.error('Error checking/inserting user:', error);
+          }
+  
           navigate("/");
-          console.log("sign in email",res.data.email)
+          console.log("sign in email", res.data.email);
         })
         .catch((err) => console.log(err));
     }
   }, [user, navigate]);
+  
+  
 
   return (
     <>
