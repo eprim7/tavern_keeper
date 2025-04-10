@@ -9,8 +9,6 @@ import supabase from "../../api/supabase-client";
 
 function Signin() {
   const [user, setUser] = useState([]);
-  const [profile, setProfile] = useState(null);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const navigate = useNavigate();
 
   // signs users in
@@ -30,10 +28,8 @@ function Signin() {
           },
         })
         .then(async (res) => {
-          setProfile(res.data);
           localStorage.setItem("email", res.data.email);
           localStorage.setItem("isLoggedIn", "true");
-          setIsLoggedIn(true);
   
           // Check if user already exists in Supabase
           try {
@@ -44,20 +40,20 @@ function Signin() {
               .single(); // assuming email is unique
   
             if (selectError && selectError.code !== "PGRST116") {
-              // PGRST116 = "No rows found" which is okay
               throw selectError;
             }
-  
+
+            // Only insert if no user exists with that email
             if (!existingUser) {
-              // Only insert if no user exists with that email
               const { error: insertError } = await supabase
                 .from("User")
                 .insert({
-                  email: res.data.email,
-                  userName: '',
-                  description: ''
+                  email: res.data.email, // get the email from google 
+                  userName: '', // blank username that will be filled in later
+                  description: '' // blank description that will be filled in later
                 });
   
+                // if inserting the information into the database fails
               if (insertError) {
                 console.error('Error inserting user:', insertError.message);
               }

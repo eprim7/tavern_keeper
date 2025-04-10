@@ -12,12 +12,16 @@ function World() {
     let signedIn = localStorage.getItem("isLoggedIn") === "true"; // Ensure it's a boolean
     let email = localStorage.getItem("email")
 
+
+    // only get all of the user's worlds if they are signed in and we have their email
     useEffect(() => {
         if (signedIn && email) {
             fetchWorlds();
         }
-    }, [signedIn, email]);
+    });
 
+
+    // fetches the worlds from the database of that specific user, based off of their email
     async function fetchWorlds() {
         const worlds = await getPlayerWorlds(email);
         if(worlds){
@@ -47,7 +51,7 @@ function World() {
                         <Link className={styles.link}>Click here to start your world-making journey</Link>
                     </h3>
                 </div>
-                {isPopupOpen && <InitialWorldPopup closeModal={setIsPopupOpen} />}
+                {isPopupOpen && (<InitialWorldPopup closeModal={setIsPopupOpen}  refreshWorlds={fetchWorlds}/> )}
 
                 <div className={styles.worldList}>
                     {dataList.length > 0 ? (dataList.map(world => (
@@ -57,7 +61,7 @@ function World() {
                         </div>
                     ))
                 ) : (
-                    <p>No worlds found</p>
+                    <p></p>
                     )
             }
                 </div>

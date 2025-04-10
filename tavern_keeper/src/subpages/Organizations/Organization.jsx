@@ -15,6 +15,7 @@ function Organizations() {
     const handleSubmit = async () =>{
       const email = localStorage.getItem("email");
 
+      // ensures that the user fills out all of the fields
       if(!organizationName || !description){
         alert("Please fill in all of the fields")
       } // end of if
@@ -43,9 +44,9 @@ function Organizations() {
         .from("Organizations")
         .insert([
           {
-            WorldID: worldData.id,
-            Name: organizationName,
-            Description: description,
+            WorldID: worldData.id, // gets the id of the world connected to the user. Will probably have to change later to ensure it matches the specific world we want to pull up 
+            Name: organizationName, // gets the organization name
+            Description: description, // gets teh organization description
           }
         ])
         if(organizationError){

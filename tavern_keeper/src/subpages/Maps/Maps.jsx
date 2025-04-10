@@ -10,22 +10,33 @@ function Maps() {
     const [isPopupOpen, setIsPopupOpen] = useState(false);
     const [mapName, setMapName] = useState('')
     const [mapURL, setMapURL] = useState('')
-    const [mapDescription, setMapDescription] = useState('')
-
 
     const handleSubmit = async () => {
       const email = localStorage.getItem("email");
 
+      // ensures the user fills out all of the fields
       if(!mapName || !mapURL){
         alert("Please fill in all of the fields")
       }// end of if
 
-      // get the user's id that is signed in
+      // this matches the user id to the world
       const { data: userData, error: userError } = await supabase
       .from("User")
       .select("id")
       .eq("email", email)
       .single();
+
+      // this gets the user id so that we can use it to match the worlds
+      const userID = userData.id;
+      console.log('id from organizations')
+
+      // this matches the world id 
+      const{data: worldData, error: worldError} = await supabase
+      .from("Worlds")
+      .select('id')
+      .eq('userID', userID)
+      .single();
+      console.log("worldData:", worldData);
 
       // error if there if can't find user
     if (userError || !userData) {
@@ -33,9 +44,6 @@ function Maps() {
       alert("User not found.");
       return;
     }
-
-    const userID = userData.id; // the user id from the database
-    console.log("userId ", userID)
 
     const file = mapURL
     const fileName = `${Date.now()}-${file.name}`
@@ -50,6 +58,7 @@ function Maps() {
       return
     }
 
+    // gets the url from the map images bucket so that we can send it to the maps table
     const publicURLResponse = supabase.storage
     .from('map-images')
     .getPublicUrl(fileName)
@@ -61,13 +70,14 @@ function Maps() {
           .from("Maps")
           .insert([
             {
-              name: mapName,
-              pictureURL: publicURL,
-              id: userID
+              name: mapName, // gets the map name
+              pictureURL: publicURL, // gets the map picture 
+              worldID: worldData.id /// gets the id of the world connected to the user. Will probably have to change later to ensure it matches the specific world we want to pull up 
             }
           ])
           if(mapError){
             alert("There was an error inserting your map")
+            console.error("error ", mapError)
           } // end of if
           else{
             alert("your map was successfully uploaded")
@@ -75,7 +85,8 @@ function Maps() {
       } catch(error){
         console.error("error ", error)
       }
-    } // end of handleSubmit
+  }// end of handleSubmit
+
 
   
     return (

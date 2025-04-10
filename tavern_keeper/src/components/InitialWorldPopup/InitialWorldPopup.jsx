@@ -2,7 +2,7 @@ import { useState } from "react";
 import supabase from "../../api/supabase-client";
 import styles from "./InitialWorldPopup.module.css";
 
-const InitialWorldPopup = ({ closeModal }) => {
+const InitialWorldPopup = ({ closeModal, refreshWorlds }) => {
     const [worldTitle, setWorldTitle] = useState("");
     const [worldGenre, setWorldGenre] = useState("");
     const [isWorldPublic, setIsWorldPublic] = useState(false);
@@ -13,7 +13,8 @@ const InitialWorldPopup = ({ closeModal }) => {
 
     // Function to submit the world data
     const handleSubmit = async () => {
-        if (!worldTitle || !worldGenre) {
+        // makes sure the user fills out all the fields
+        if (!worldTitle || !worldGenre || !worldDescription) {
             alert("Please fill in all required fields.");
             return;
         }
@@ -28,6 +29,7 @@ const InitialWorldPopup = ({ closeModal }) => {
                 .eq("email", userEmail)
                 .single();
 
+                // if there is an error, or if there is no user data throw an error
             if (userError || !userData) {
                 console.error("Error retrieving user ID:", userError);
                 alert("User not found.");
@@ -42,21 +44,23 @@ const InitialWorldPopup = ({ closeModal }) => {
                 .from("Worlds")
                 .insert([
                     {
-                        title: worldTitle,
-                        userID: userID,
-                        genre: worldGenre,
-                        isPublic: isWorldPublic,
-                        dateCreated: new Date().toISOString(),
-                        description: worldDescription,
-                        likes: 0,
+                        title: worldTitle, // gets hte name of the world 
+                        userID: userID, // gets the user id
+                        genre: worldGenre, // gets the genre 
+                        isPublic: isWorldPublic, // gets if the world if public
+                        dateCreated: new Date().toISOString(), // gets the current date
+                        description: worldDescription, // gets the description
+                        likes: 0, // defaults likes to 0, will be updated in the community page
                     }
                 ]);
 
+                // if the information was not successfully inserted into the database
             if (worldError) {
                 console.error("Error inserting world:", worldError);
                 alert("Failed to create world.");
             } else {
                 alert("World successfully created!");
+                await refreshWorlds()
                 closeModal(false);
             }
         } catch (err) {
