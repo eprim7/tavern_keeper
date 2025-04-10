@@ -19,8 +19,19 @@ export async function getPlayerWorlds(email) {
     
 }
 
-export async function getPublicWorlds() {
-    const {data, error} = await supabase.from("Worlds").select("*").eq("isPublic", true);
+export async function getPublicWorlds(genre = undefined, search = undefined) {
+
+    let query = supabase.from("Worlds").select("*").eq("isPublic", true);
+
+    if(genre) {
+        query.eq("genre", genre);
+    }
+
+    if(search) {
+        query.ilike("title", '%'+search+'%');
+    }
+
+    const {data, error} = await query;
 
     if(error) {
         console.log("Failed to retrieve public worlds.")
