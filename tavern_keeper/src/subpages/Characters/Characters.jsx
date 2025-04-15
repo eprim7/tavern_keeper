@@ -5,12 +5,26 @@ import WorldOverviewGrid from "../../components/WorldOverviewGrid/WorldOverviewG
 import { useState } from "react";
 import SubpagesPopup from "../../components/SubpagesPopup/SubpagesPopup";
 import supabase from "../../api/supabase-client";
+import { useParams } from "react-router-dom";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 function Characters() {
     const [isPopupOpen, setIsPopupOpen] = useState(false);
     const [characterName, setCharacterName] = useState('')
     const [characterURL, setCharacterURL] = useState('')
     const [characterDescription, setCharacterDescription] = useState('')
+    const { id: worldId } = useParams()
+    const navigate = useNavigate();
+    const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+
+    // ensure the user is signed in, so that the user can not just automatically type in http://localhost:3000/worldOverview/24 and get to that world
+        useEffect(() => {
+            if (!isLoggedIn) {
+            navigate("/signin");
+            }
+        }, [isLoggedIn, navigate]);
+    
 
     const handleSubmit = async () => {
       const email = localStorage.getItem("email");
@@ -26,18 +40,6 @@ function Characters() {
       .select("id")
       .eq("email", email)
       .single();
-
-      // this gets the user id so we can use it to get the world ID
-      const userID = userData.id;
-      console.log('id from characters ', userData.id)
-
-      // this gets the world id of the user that is currently signed in 
-      const{data: worldData, error: worldError} = await supabase
-      .from("Worlds")
-      .select('id')
-      .eq('userID', userID)
-      .single();
-      console.log("worldData:", worldData);
 
       // error if there if can't find user
     if (userError || !userData) {
@@ -75,7 +77,7 @@ function Characters() {
               Name: characterName, // enters the character name
               Description: characterDescription, // enters the character description
               PortraitURL: publicURL, // enters the character portrait URL
-              WorldID: worldData.id // gets the id of the world connected to the user. Will probably have to change later to ensure it matches the specific world we want to pull up 
+              WorldID: worldId // gets the id of the world connected to the user. Will probably have to change later to ensure it matches the specific world we want to pull up 
             }
           ])
           if(characterError){

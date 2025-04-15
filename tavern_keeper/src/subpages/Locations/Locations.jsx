@@ -5,44 +5,47 @@ import WorldOverviewGrid from "../../components/WorldOverviewGrid/WorldOverviewG
 import { useState } from "react"
 import SubpagesPopup from "../../components/SubpagesPopup/SubpagesPopup"
 import supabase from "../../api/supabase-client"
+import { useParams } from "react-router-dom"
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 function Locations() {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [locationName, setlocationName] = useState('')
   const [description, setDescription] = useState('');
+  const {id: worldId} = useParams()
+  const navigate = useNavigate();
+    const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
 
+  // ensure the user is signed in, so that the user can not just automatically type in http://localhost:3000/worldOverview/24 and get to that world
+    useEffect(() => {
+        if (!isLoggedIn) {
+        navigate("/signin");
+        }
+    }, [isLoggedIn, navigate]);
 
   const handleSubmit = async () =>{
-    const email = localStorage.getItem("email");
+    // const email = localStorage.getItem("email");
 
     if(!locationName || !description){
       alert("Please fill in all of the fields")
     } // end of if
 
 
-    // this matches the user id to the world
+    /* this matches the user id to the world
     const { data: userData, error: userError } = await supabase
     .from("User")
     .select("id")
     .eq("email", email)
     .single();
-
-    const userID = userData.id;
-
-    // this matches the world id 
-    const{data: worldData, error: worldError} = await supabase
-    .from("Worlds")
-    .select('id')
-    .eq('userID', userID)
-    .single();
-    console.log("worldData:", worldData);
+    */
 
     try{
       const{error: locationError} = await supabase
       .from("Locations")
       .insert([
         {
-          worldID: worldData.id,
+          worldID: worldId,
           name: locationName,
           description: description,
         }

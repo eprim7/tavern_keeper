@@ -26,15 +26,15 @@ function App() {
         <Route path='/account' element={<Account />}/>
         <Route path='/community' element={<Community />}/>
         <Route path='/signin' element={<Signin />}/>
-        <Route path='/worldOverview' element={<WorldOverview />}/>
+        <Route path='/worldOverview/:id' element={<WorldOverview />}/>
         <Route path='/Test' element={<Test />}/>   
 
-          <Route path='/worldOverview/maps' element={<Maps />}/>
-          <Route path='/worldOverview/characters' element={<Characters />}/>
-          <Route path='/worldOverview/organizations' element={<Organizations />}/>
-          <Route path='/worldOverview/locations' element={<Locations />}/>
-          <Route path='/worldOverview/timelines' element={<Timelines />}/>
-          <Route path='/worldOverview/miscellaneous' element={<Miscellaneous />}/>
+          <Route path='/worldOverview/maps/:id' element={<Maps />}/>
+          <Route path='/worldOverview/characters/:id' element={<Characters />}/>
+          <Route path='/worldOverview/organizations/:id' element={<Organizations />}/>
+          <Route path='/worldOverview/locations/:id' element={<Locations />}/>
+          <Route path='/worldOverview/timelines/:id' element={<Timelines />}/>
+          <Route path='/worldOverview/miscellaneous/:id' element={<Miscellaneous />}/>
         </Routes>
       </Router> 
 )

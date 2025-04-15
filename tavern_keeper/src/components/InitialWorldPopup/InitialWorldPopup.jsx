@@ -115,9 +115,12 @@ const InitialWorldPopup = ({ closeModal, refreshWorlds }) => {
                     >
                         <option value="" disabled hidden>Select a Genre</option>
                         <option value="Sci-Fi">Sci-Fi</option>
-                        <option value="Dark Fantasy">Dark Fantasy</option>
-                        <option value="Comedy">Comedy</option>
+                        <option value="Fantasy">Fantasy</option>
+                        <option value="Romance">Romance</option>
                         <option value="Horror">Horror</option>
+                        <option value="Mystery">Mystery</option>
+                        <option value="Thriller">Thriller</option>
+                        <option value="Nonfiction">Nonfiction</option>
                     </select>
                 </div>
                 <div className={styles.body}>

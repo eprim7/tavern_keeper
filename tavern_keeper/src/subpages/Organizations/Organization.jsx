@@ -5,12 +5,24 @@ import WorldOverviewGrid from "../../components/WorldOverviewGrid/WorldOverviewG
 import { useState } from "react"
 import SubpagesPopup from "../../components/SubpagesPopup/SubpagesPopup"
 import supabase from "../../api/supabase-client"
+import { useParams } from "react-router-dom"
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 function Organizations() {
     const [isPopupOpen, setIsPopupOpen] = useState(false);
     const [organizationName, setOrganizationName] = useState('')
     const [description, setDescription] = useState('');
+    const {id: worldId} = useParams()
+    const navigate = useNavigate();
+    const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
 
+  // ensure the user is signed in, so that the user can not just automatically type in http://localhost:3000/worldOverview/24 and get to that world
+    useEffect(() => {
+        if (!isLoggedIn) {
+        navigate("/signin");
+        }
+    }, [isLoggedIn, navigate]);
 
     const handleSubmit = async () =>{
       const email = localStorage.getItem("email");
@@ -28,23 +40,13 @@ function Organizations() {
       .eq("email", email)
       .single();
 
-      const userID = userData.id;
-      console.log('id from organizations')
-
-      // this matches the world id 
-      const{data: worldData, error: worldError} = await supabase
-      .from("Worlds")
-      .select('id')
-      .eq('userID', userID)
-      .single();
-      console.log("worldData:", worldData);
 
       try{
         const{error: organizationError} = await supabase
         .from("Organizations")
         .insert([
           {
-            WorldID: worldData.id, // gets the id of the world connected to the user. Will probably have to change later to ensure it matches the specific world we want to pull up 
+            WorldID: worldId, // gets the id of the world connected to the user. Will probably have to change later to ensure it matches the specific world we want to pull up 
             Name: organizationName, // gets the organization name
             Description: description, // gets teh organization description
           }

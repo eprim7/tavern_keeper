@@ -9,9 +9,8 @@ function World() {
     const [isPopupOpen, setIsPopupOpen] = useState(false);
     const [dataList, setDataList] = useState([]);
 
-    let signedIn = localStorage.getItem("isLoggedIn") === "true"; // Ensure it's a boolean
+    let signedIn = localStorage.getItem("isLoggedIn") === "true";
     let email = localStorage.getItem("email")
-
 
     // only get all of the user's worlds if they are signed in and we have their email
     useEffect(() => {
@@ -28,7 +27,6 @@ function World() {
             setDataList(worlds);
         }
     }
-
 
     // This is what shows if the user is not signed in 
     if (!signedIn) {
@@ -54,17 +52,17 @@ function World() {
                 {isPopupOpen && (<InitialWorldPopup closeModal={setIsPopupOpen}  refreshWorlds={fetchWorlds}/> )}
 
                 <div className={styles.worldList}>
-                    {dataList.length > 0 ? (dataList.map(world => (
-                        <div key={world.id} className={styles.worldCard}>
+                    {dataList.length > 0 ? (
+                        dataList.map(world => (
+                        <Link to={`/worldOverview/${world.id}`} key={world.id} className={styles.worldCard}>
                             <h3>{world.title}</h3>
                             <p>{world.description}</p>
-                        </div>
-                    ))
-                ) : (
-                    <p></p>
-                    )
-            }
-                </div>
+                        </Link>
+                        ))
+                    ) : (
+                        <p></p>
+                    )}
+                    </div>
             </div>
         </>
     );

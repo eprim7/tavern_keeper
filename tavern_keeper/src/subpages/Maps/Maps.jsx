@@ -5,11 +5,27 @@ import WorldOverviewGrid from "../../components/WorldOverviewGrid/WorldOverviewG
 import { useState } from "react"
 import SubpagesPopup from "../../components/SubpagesPopup/SubpagesPopup"
 import supabase from "../../api/supabase-client"
+import { useParams } from "react-router-dom"
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 function Maps() {
+
+  // ensures user is signed in 
+  const navigate = useNavigate();
+  const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+
+  // ensure the user is signed in, so that the user can not just automatically type in http://localhost:3000/worldOverview/24 and get to that world
+    useEffect(() => {
+        if (!isLoggedIn) {
+        navigate("/signin");
+        }
+    }, [isLoggedIn, navigate]);
+
     const [isPopupOpen, setIsPopupOpen] = useState(false);
     const [mapName, setMapName] = useState('')
     const [mapURL, setMapURL] = useState('')
+    const {id: worldId} = useParams()
 
     const handleSubmit = async () => {
       const email = localStorage.getItem("email");
@@ -27,16 +43,8 @@ function Maps() {
       .single();
 
       // this gets the user id so that we can use it to match the worlds
-      const userID = userData.id;
-      console.log('id from organizations')
-
-      // this matches the world id 
-      const{data: worldData, error: worldError} = await supabase
-      .from("Worlds")
-      .select('id')
-      .eq('userID', userID)
-      .single();
-      console.log("worldData:", worldData);
+      // const userID = userData.id;
+      console.log("worldId from URL:", worldId); // optional
 
       // error if there if can't find user
     if (userError || !userData) {
@@ -72,7 +80,7 @@ function Maps() {
             {
               name: mapName, // gets the map name
               pictureURL: publicURL, // gets the map picture 
-              worldID: worldData.id /// gets the id of the world connected to the user. Will probably have to change later to ensure it matches the specific world we want to pull up 
+              worldID: worldId /// gets the id of the world connected to the user. Will probably have to change later to ensure it matches the specific world we want to pull up 
             }
           ])
           if(mapError){
@@ -87,8 +95,6 @@ function Maps() {
       }
   }// end of handleSubmit
 
-
-  
     return (
       <>
         <Header />

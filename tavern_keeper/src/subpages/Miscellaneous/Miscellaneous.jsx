@@ -4,9 +4,20 @@ import styles from "../Characters/Characters.module.css"
 import WorldOverviewGrid from "../../components/WorldOverviewGrid/WorldOverviewGrid"
 import { useState } from "react"
 import SubpagesPopup from "../../components/SubpagesPopup/SubpagesPopup"
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 function Miscellaneous() {
     const [isPopupOpen, setIsPopupOpen] = useState(false);
+    const navigate = useNavigate();
+    const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+
+  // ensure the user is signed in, so that the user can not just automatically type in http://localhost:3000/worldOverview/24 and get to that world
+    useEffect(() => {
+        if (!isLoggedIn) {
+        navigate("/signin");
+        }
+    }, [isLoggedIn, navigate]);
   
     return (
       <>

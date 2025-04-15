@@ -49,23 +49,20 @@ function Signin() {
                 .from("User")
                 .insert({
                   email: res.data.email, // get the email from google 
-                  userName: '', // blank username that will be filled in later
-                  description: '' // blank description that will be filled in later
+                  userName: '', // blank username that will be filled in later in account page
+                  description: '' // blank description that will be filled in later in account page
                 });
   
                 // if inserting the information into the database fails
               if (insertError) {
                 console.error('Error inserting user:', insertError.message);
               }
-            } else {
-              console.log("User already exists with email:", res.data.email);
             }
           } catch (error) {
             console.error('Error checking/inserting user:', error);
           }
   
           navigate("/");
-          console.log("sign in email", res.data.email);
         })
         .catch((err) => console.log(err));
     }
