@@ -49,3 +49,13 @@ export async function getUserByUserID(userID) {
         return data;
     }
 }
+
+export async function getWorldDataByID(id) {
+    const {data, error} = await supabase.from("Worlds").select("*").eq("id", id).single();
+
+    if(error || !data) {
+        console.log("Failed to retrieve world data.");
+    } else {
+        return data;
+    }
+}
