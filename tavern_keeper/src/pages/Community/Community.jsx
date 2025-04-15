@@ -7,6 +7,7 @@ import CommunityGrid from "../../components/CommunityGrid/CommunityGrid";
 import { useEffect } from "react";
 import { RiArrowDropDownLine } from "react-icons/ri";
 import { getPublicWorlds } from "../../api/world_accessor";
+import { MdOutlineClose } from "react-icons/md";
 
 function Community() {
   //var for dropdown
@@ -17,6 +18,7 @@ function Community() {
   const buttonRef = useRef(null);
   const submenuRef = useRef(null);
   const [search, setSearch] = useState('');
+  const [filtered, setFiltered] = useState(false);
   const openMenu = () => {
     setOpen(!open);
     if(genreOpen){
@@ -29,21 +31,27 @@ function Community() {
   }
   const filterByGenre = (genre) =>  {
     console.log("filtering by: " + genre);
-    setCommunityData(allCommunityData.filter(world => world.genre == genre));
+    //setCommunityData(allCommunityData.filter(world => world.genre == genre));
+    filterPublicWorlds(genre);
     setOpen(false);
     setGenreOpen(false);
+    setFiltered(true);
   }
   const filterByNew = () => {
     console.log("filtering by: new");
-    setCommunityData(allCommunityData.sort((world, nextworld) => world.dateCreated < nextworld.dateCreated));
+    const sorted = [...allCommunityData].sort((a, b) => new Date(b.dateCreated) - new Date(a.dateCreated));
+    setCommunityData(sorted);
     setOpen(false);
     setGenreOpen(false);
+    setFiltered(true);
   }
   const filterByLikes = () => {
     console.log("filtering by: likes");
-    setCommunityData(allCommunityData.sort((world, nextworld) => world.likes < nextworld.likes));
+    const sorted = [...allCommunityData].sort((a, b) => b.likes - a.likes);
+    setCommunityData(sorted);
     setOpen(false);
     setGenreOpen(false);
+    setFiltered(true);
   }
   function FilterDropDown () {
     //add more styling
@@ -123,6 +131,18 @@ function Community() {
       fetchPublicWorlds();
     }
   }, []);
+  async function searchPublicWorlds(search) {
+    const publicWorlds = await getPublicWorlds(null, search);
+    if(publicWorlds){
+      setCommunityData(publicWorlds);
+    }
+  }
+  async function filterPublicWorlds(genre) {
+    const publicWorlds = await getPublicWorlds(genre, null);
+    if(publicWorlds){
+      setCommunityData(publicWorlds);
+    }
+  }
   
     
   //pagination vars
@@ -166,10 +186,15 @@ function Community() {
     if(search.trim() == ''){
       fetchPublicWorlds();
     } else {
-      const filteredData = allCommunityData.filter(world => world.title.toLowerCase().includes(search.toLowerCase()));
-      setCommunityData(filteredData);
+      //const filteredData = allCommunityData.filter(world => world.title.toLowerCase().includes(search.toLowerCase()));
+      //setCommunityData(filteredData);
+      searchPublicWorlds(search);
     }
     
+  }
+  const removeFilter = () => {
+    setCommunityData(allCommunityData);
+    setFiltered(false);
   }
   return (
     <>
@@ -190,6 +215,11 @@ function Community() {
         <div>
           <button className={styles.filter} onClick={openMenu} ref={buttonRef}>
             <CiFilter style={{width: '2.5em', height: '2.5em'}}/>
+          </button>
+        </div>
+        <div>
+          <button className={filtered ? styles.closefilter : styles.closefilterinactive} onClick={removeFilter}>
+            <MdOutlineClose />
           </button>
         </div>
       </div>
