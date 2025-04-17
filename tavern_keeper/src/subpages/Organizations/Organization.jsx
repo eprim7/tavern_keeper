@@ -29,7 +29,7 @@ function Organizations() {
     useEffect(() => {
       if (!worldId) return; // Do nothing if worldId is not available yet
 
-      
+      // fetch all of the organizations connected to the world
       const fetchOrganizations = async () => {
           const { data, error } = await supabase
               .from("Organizations")
@@ -46,6 +46,8 @@ function Organizations() {
       fetchOrganizations();
   }, [worldId]); // This effect depends on worldId
 
+
+  // submit all of the data into the Organizations table
     const handleSubmit = async () =>{
 
       // ensures that the user fills out all of the fields
@@ -58,7 +60,7 @@ function Organizations() {
         .from("Organizations")
         .insert([
           {
-            WorldID: worldId, // gets the id of the world connected to the user. Will probably have to change later to ensure it matches the specific world we want to pull up 
+            WorldID: worldId,
             Name: organizationName, // gets the organization name
             Description: description, // gets teh organization description
           }

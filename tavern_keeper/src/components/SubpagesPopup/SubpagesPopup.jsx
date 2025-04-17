@@ -2,23 +2,23 @@ import React from "react";
 import styles from "../SubpagesPopup/SubpagesPopup.module.css";
 
 const SubpagesPopup = ({
-  closeModal,
-  children,
-  showPicture,
-  name,
-  setName,
-  picture,
-  setPicture,
-  handleSubmit,
-  description,
-  setDescription,
-  showDescription,
-  startDate,
-  setStartDate,
-  endDate,
-  setEndDate,
-  showStartDate,
-  showEndDate
+  closeModal, // closes the subpage
+  children, // prop that is passed
+  showPicture, // shows the picture input
+  name, // stores the name
+  setName, // sets the name
+  picture, // stores the picture
+  setPicture, // sets the picture
+  handleSubmit, // handle submit to enter into the database
+  description, // stores description
+  setDescription, // sets description
+  showDescription, // determines if the description input needs to be shown
+  startDate, // stores startDate
+  setStartDate, // sets start date
+  endDate, // stores end date
+  setEndDate, // sets end date
+  showStartDate, // determines if the start date input needs to be shown
+  showEndDate // determine if end date input needs to be shown
 }) => {
   const handleFileChange = (e) => {
     const file = e.target.files[0];

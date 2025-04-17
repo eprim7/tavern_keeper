@@ -11,7 +11,7 @@ const InitialWorldPopup = ({ closeModal, refreshWorlds }) => {
 
     let userEmail = localStorage.getItem("email")
 
-    // Function to submit the world data
+    // Function to submit the world data into the World table
     const handleSubmit = async () => {
         // makes sure the user fills out all the fields
         if (!worldTitle || !worldGenre || !worldDescription) {
@@ -44,7 +44,7 @@ const InitialWorldPopup = ({ closeModal, refreshWorlds }) => {
                 .from("Worlds")
                 .insert([
                     {
-                        title: worldTitle, // gets hte name of the world 
+                        title: worldTitle, // gets the name of the world 
                         userID: userID, // gets the user id
                         genre: worldGenre, // gets the genre 
                         isPublic: isWorldPublic, // gets if the world if public

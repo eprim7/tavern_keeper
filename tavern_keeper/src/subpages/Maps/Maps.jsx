@@ -31,6 +31,7 @@ function Maps() {
   useEffect(() => {
     if (!worldId) return; // If worldId is not available, do not proceed
 
+    // get all of the maps the user has already created for that world
     const fetchMaps = async () => {
       const { data, error } = await supabase
         .from("Maps")
@@ -69,13 +70,14 @@ function Maps() {
       return;
     }
 
+    // get the URL from the bucket to store in the Maps table
     const publicURLResponse = supabase.storage
       .from("map-images")
       .getPublicUrl(fileName);
 
     const publicURL = publicURLResponse.data.publicUrl;
 
-    // upload everything into the Maps table
+    // upload data into the Maps table
     try {
       const { error: mapError } = await supabase
         .from("Maps")
@@ -83,7 +85,7 @@ function Maps() {
           {
             name: mapName,
             pictureURL: publicURL,
-            worldID: worldId, // Pass the worldId to associate the map
+            worldID: worldId,
           },
         ]);
 
@@ -143,11 +145,7 @@ function Maps() {
                   <img
                     src={map.pictureURL}
                     alt={map.name}
-                    style={{
-                      maxWidth: "50%",
-                      borderRadius: "10px",
-                      marginTop: "0.5rem",
-                    }}
+                    className={styles.mapImage}
                   />
                 </div>
               ))

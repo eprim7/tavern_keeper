@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 function AccountDropDown({ handleLogout}) {
 
-    let email = localStorage.getItem("email")
+    let email = localStorage.getItem("email") // gets the email to display it 
 
     return (
         <div className={styles.account_dropdown}>
