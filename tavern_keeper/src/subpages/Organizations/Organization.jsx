@@ -26,11 +26,12 @@ function Organizations() {
     }, [isLoggedIn, navigate]);
 
     // fetching characters from database based on worldID
-    useEffect(() => {
-      if (!worldId) return; // Do nothing if worldId is not available yet
+     
 
       // fetch all of the organizations connected to the world
       const fetchOrganizations = async () => {
+        if (!worldId) return; // Do nothing if worldId is not available yet
+
           const { data, error } = await supabase
               .from("Organizations")
               .select("*")
@@ -43,8 +44,11 @@ function Organizations() {
           }
       };
 
-      fetchOrganizations();
-  }, [worldId]); // This effect depends on worldId
+      useEffect(() => {
+        fetchOrganizations();
+      }, [worldId]);
+
+
 
 
   // submit all of the data into the Organizations table
@@ -53,6 +57,7 @@ function Organizations() {
       // ensures that the user fills out all of the fields
       if(!organizationName || !description){
         alert("Please fill in all of the fields")
+        return;
       } // end of if
 
       try{
@@ -70,6 +75,7 @@ function Organizations() {
         }
         else{
           alert("Your organization was successfully uploaded")
+          fetchOrganizations()
         }
       } catch(error){
         console.error("Error ", error)

@@ -25,13 +25,11 @@ function Characters() {
         }
     }, [isLoggedIn, navigate]);
 
-    // fetching characters from database based on worldID
-    useEffect(() => {
-        if (!worldId) return; // Do nothing if worldId is not available yet
-
-        
+    // fetching characters from database based on worldID        
         // get the characters that have already been created in that world
         const fetchCharacters = async () => {
+            if (!worldId) return; // Do nothing if worldId is not available yet
+
             const { data, error } = await supabase
                 .from("Characters")
                 .select("*")
@@ -44,8 +42,9 @@ function Characters() {
             }
         };
 
-        fetchCharacters();
-    }, [worldId]); // This effect depends on worldId
+        useEffect(() => {
+            fetchCharacters();
+          }, [worldId]);
 
     const handleSubmit = async () => {
 
@@ -95,6 +94,7 @@ function Characters() {
                 console.error("error", characterError);
             } else {
                 alert("Your character was successfully uploaded");
+                fetchCharacters();
             }
         } catch (error) {
             console.error("error", error);

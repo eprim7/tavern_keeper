@@ -20,12 +20,6 @@ const SubpagesPopup = ({
   showStartDate, // determines if the start date input needs to be shown
   showEndDate // determine if end date input needs to be shown
 }) => {
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setPicture(file); // picture will now be a File object
-    }
-  };
 
   return (
     <div className={styles.modalBackground}>

@@ -25,15 +25,13 @@ function Timelines() {
         if (!isLoggedIn) {
         navigate("/signin");
         }
-    }, [isLoggedIn, navigate]);
-
-    // fetch the events
-    useEffect(() => {
-      if (!worldId) return; // Do nothing if worldId is not available yet
-
+    }, [isLoggedIn, navigate]);    
       
       // fetch the events that the user has already input
       const fetchEvents = async () => {
+
+        if (!worldId) return; // Do nothing if worldId is not available yet
+
           const { data, error } = await supabase
               .from("Events")
               .select("*")
@@ -45,9 +43,9 @@ function Timelines() {
               setEvents(data); // Set characters state
           }
       };
-
-      fetchEvents();
-  }, [worldId]); // This effect depends on worldId
+      useEffect(() => {
+        fetchEvents();
+      },[worldId]);
 
 
   // submit all of the data into the Events timeline
@@ -55,6 +53,7 @@ function Timelines() {
 
     if(!eventName || !description){
       alert("Please fill in all of the fields")
+      return;
     } // end of if
 
     // actually insert the data into the events table
@@ -76,6 +75,7 @@ function Timelines() {
       }
       else{
         alert("Your event was successfully uploaded")
+        fetchEvents();
       }
     } catch(error){
       console.error("Error ", error)

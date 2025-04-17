@@ -26,12 +26,12 @@ function Locations() {
     }, [isLoggedIn, navigate]);
 
     // fetch the locations
-    useEffect(() => {
-      if (!worldId) return; // Do nothing if worldId is not available yet
-
       
       // get the locations that have already been created from that world for display
       const fetchLocations = async () => {
+
+        if (!worldId) return; // Do nothing if worldId is not available yet
+
           const { data, error } = await supabase
               .from("Locations")
               .select("*")
@@ -44,8 +44,9 @@ function Locations() {
           }
       };
 
-      fetchLocations();
-  }, [worldId]); // This effect depends on worldId
+      useEffect(() => {
+        fetchLocations();
+      }, [worldId]);
 
 
   // enter all of the data into the Locations table
@@ -54,6 +55,7 @@ function Locations() {
     // ensure the user enters into all of the input fields
     if(!locationName || !description){
       alert("Please fill in all of the fields")
+      return;
     } // end of if
 
     try{
@@ -71,6 +73,7 @@ function Locations() {
       }
       else{
         alert("Your Location was successfully uploaded")
+        fetchLocations();
       }
     } catch(error){
       console.error("Error ", error)

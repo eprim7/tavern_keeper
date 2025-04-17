@@ -25,12 +25,13 @@ function Miscellaneous() {
         }
     }, [isLoggedIn, navigate]);
 
-    useEffect(() => {
       // if there is no worldID don't even try to fetch the worlds. This "SHOULD" never happen but idk
-      if(!worldId) return;
 
       // fetch the miscellaneous data the user has entered into the world
       const fetchMisc = async () => {
+
+        if(!worldId) return;
+
         const {data, error} = await supabase
         .from("Misc")
         .select("*")
@@ -44,8 +45,9 @@ function Miscellaneous() {
         } // end of else
       } // end of fetchMisc
 
-      fetchMisc()
-    }, [worldId])
+      useEffect(() => {
+        fetchMisc();
+      }, [worldId])
 
     // submit the data into the Misc table 
     const handleSubmit = async () => {
@@ -53,6 +55,7 @@ function Miscellaneous() {
       // ensures the user completely fills in the popup
       if(!miscName || !miscDescription){
         alert("Please fill in all fields")
+        return;
       } // end of if
 
       // attempt to insert the data into the database
@@ -72,6 +75,7 @@ function Miscellaneous() {
         } // end of if
         else{
           alert("Your item was successfully added")
+          fetchMisc();
         } // end of else
       }catch(error){
         console.error("error ", error)

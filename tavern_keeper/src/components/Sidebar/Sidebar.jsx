@@ -29,8 +29,6 @@ function Sidebar({ worldID }) {
             <Link to={`/worldOverview/miscellaneous/${worldID}`} className={styles.link}>
                 <MdMiscellaneousServices className={styles.icon} /> <span>Misc.</span>
             </Link>
-            <button className={styles.button}>Submit</button>
-
         </aside>
     );
 }

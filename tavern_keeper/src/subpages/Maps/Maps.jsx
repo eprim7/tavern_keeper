@@ -28,26 +28,24 @@ function Maps() {
   }, [isLoggedIn, navigate]);
 
   // Fetch maps if worldId is available
+  const fetchMaps = async () => {
+    if (!worldId) return;
+  
+    const { data, error } = await supabase
+      .from("Maps")
+      .select("*")
+      .eq("worldID", worldId);
+  
+    if (error) {
+      console.error("Error fetching maps:", error);
+    } else {
+      setMaps(data);
+    }
+  };
+  
   useEffect(() => {
-    if (!worldId) return; // If worldId is not available, do not proceed
-
-    // get all of the maps the user has already created for that world
-    const fetchMaps = async () => {
-      const { data, error } = await supabase
-        .from("Maps")
-        .select("*")
-        .eq("worldID", worldId);
-
-      if (error) {
-        console.error("Error fetching maps:", error);
-      } else {
-        setMaps(data); // Set the maps state
-      }
-    };
-
     fetchMaps();
-  }, [worldId]); // This will run only when worldId changes
-
+  }, [worldId]);
 
   // submitting the data into the database
   const handleSubmit = async () => {
@@ -94,6 +92,7 @@ function Maps() {
         console.error("Error inserting map:", mapError);
       } else {
         alert("Your map was successfully uploaded");
+        fetchMaps()
       }
     } catch (error) {
       console.error("Error inserting map:", error);
