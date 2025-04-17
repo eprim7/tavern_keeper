@@ -32,6 +32,7 @@ function Timelines() {
       if (!worldId) return; // Do nothing if worldId is not available yet
 
       
+      // fetch the events that the user has already input
       const fetchEvents = async () => {
           const { data, error } = await supabase
               .from("Events")
@@ -49,6 +50,7 @@ function Timelines() {
   }, [worldId]); // This effect depends on worldId
 
 
+  // submit all of the data into the Events timeline
   const handleSubmit = async () =>{
 
     if(!eventName || !description){

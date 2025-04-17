@@ -13,7 +13,7 @@
     text-align: center;
     color: white;
     background-color: rgba(0, 0, 0, 0.4);
-
+    padding: 2rem;
 }
 .hero::before {
     content: "Start the journey by creating your worlds here";
@@ -31,6 +31,7 @@
     border: 2px solid white;
     width: 80%;
     max-width: 300px;
+    padding: 1.5rem;
     height: auto;
     padding: 1.5rem;
     display: flex;
@@ -79,7 +80,6 @@
     max-width: 1200px;
 }
 
-/* Each world card */
 .worldCard {
     background: rgba(255, 255, 255, 0.1);
     border: 2px solid white;
@@ -109,6 +109,9 @@
     color: #ddd;
 }
 @media (max-width: 768px) {
+    .hero{
+        padding: 1.5rem;
+    }
     .hero::before {
         font-size: 1.8rem;
     }
@@ -125,6 +128,10 @@
     }
 }
 @media (max-width: 480px) {
+    .hero{
+        height: auto;
+        padding-top: 3rem;
+    }
     .hero::before {
         font-size: 1.4rem;
         padding: 5px;
@@ -133,11 +140,15 @@
         width: 90%;
         max-width: 250px;
         margin-top: 20%;
+        padding: 1rem;
     }
     .h3 {
         font-size: 1.2em;
     }
-    worldCard {
+    .worldList{
+        bottom: 10%;
+    }
+    .worldCard {
         width: 90%;
         padding: 1rem;
     }
@@ -148,5 +159,19 @@
 
     .worldCard p {
         font-size: 0.9rem;
+    }
+}
+@media (max-width: 360px) {
+    .hero::before {
+        font-size: 1rem;
+    }
+
+    .card {
+        padding: 0.8rem;
+        border-radius: 20px;
+    }
+
+    .worldCard {
+        padding: 0.8rem;
     }
 }

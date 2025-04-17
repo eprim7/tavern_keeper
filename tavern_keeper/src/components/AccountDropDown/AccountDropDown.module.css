@@ -33,4 +33,14 @@
 .email{
   font-size: 1rem;
 }
+/*ensures the dropdown is properly aligned when the hamburger menu is active*/
+@media screen and (max-width: 1200px) {
+  .account_dropdown {
+    position: static;
+    margin-top: 1rem;
+    width: 100%;
+    box-shadow: none;
+  }
+}
+
   

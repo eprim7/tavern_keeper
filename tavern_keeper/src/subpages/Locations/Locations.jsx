@@ -30,6 +30,7 @@ function Locations() {
       if (!worldId) return; // Do nothing if worldId is not available yet
 
       
+      // get the locations that have already been created from that world for display
       const fetchLocations = async () => {
           const { data, error } = await supabase
               .from("Locations")
@@ -46,6 +47,8 @@ function Locations() {
       fetchLocations();
   }, [worldId]); // This effect depends on worldId
 
+
+  // enter all of the data into the Locations table
   const handleSubmit = async () =>{
 
     // ensure the user enters into all of the input fields

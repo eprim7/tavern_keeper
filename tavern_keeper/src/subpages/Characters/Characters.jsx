@@ -30,6 +30,7 @@ function Characters() {
         if (!worldId) return; // Do nothing if worldId is not available yet
 
         
+        // get the characters that have already been created in that world
         const fetchCharacters = async () => {
             const { data, error } = await supabase
                 .from("Characters")
@@ -69,6 +70,7 @@ function Characters() {
             return;
         }
 
+        // gets the URL from the bucket to display in the characters table
         const publicURLResponse = supabase.storage
             .from('character-portraits')
             .getPublicUrl(fileName);
@@ -146,11 +148,7 @@ function Characters() {
                                     <img
                                         src={character.PortraitURL}
                                         alt={character.Name}
-                                        style={{
-                                            maxWidth: "100%",
-                                            borderRadius: "10px",
-                                            marginTop: "0.5rem",
-                                        }}
+                                        className={styles.mapImage}
                                     />
                                 </div>
                             ))

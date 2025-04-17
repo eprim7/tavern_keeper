@@ -29,6 +29,7 @@ function Miscellaneous() {
       // if there is no worldID don't even try to fetch the worlds. This "SHOULD" never happen but idk
       if(!worldId) return;
 
+      // fetch the miscellaneous data the user has entered into the world
       const fetchMisc = async () => {
         const {data, error} = await supabase
         .from("Misc")
@@ -46,6 +47,7 @@ function Miscellaneous() {
       fetchMisc()
     }, [worldId])
 
+    // submit the data into the Misc table 
     const handleSubmit = async () => {
 
       // ensures the user completely fills in the popup
@@ -80,7 +82,7 @@ function Miscellaneous() {
   
     return (
       <>
-                <Header />
+      <Header />
         <div className={styles.centerWrapper}>
           <div className={styles.content}>
             <div className={styles.buttonRow}>

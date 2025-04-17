@@ -24,14 +24,17 @@ function Header() {
     setIsLoggedIn(loggedInStatus);
   }, []);
 
+  // toggles the hamburger menu
   const toggleHamburger = () => {
     setIsActive((prev) => !prev);
   };
 
+  // turns the hamburger menu off when you click the link to a page 
   const handleNavLinkClick = () => {
     setIsActive(false);
   };
 
+  //  this toggles the dropdown that shows up for the account page
   const toggleDropDown = () => {
     setShowDropdown((prev) => !prev);
   };
@@ -54,13 +57,14 @@ function Header() {
     };
   }, []);
 
+  // logs the user out
   const handleLogout = () => {
     console.log("Logging out...");
     googleLogout();
     localStorage.removeItem("isLoggedIn");
     setIsLoggedIn(false); // Immediately update the state on logout
     setShowDropdown(false);
-    navigate('/signin');
+    navigate('/signin'); // navigate them to the signin page
   };
 
   return (
