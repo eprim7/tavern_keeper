@@ -9,12 +9,14 @@ import { CiLogin } from "react-icons/ci";
 import { googleLogout } from '@react-oauth/google';
 import AccountDropDown from "../../components/AccountDropDown/AccountDropDown";
 import { useNavigate } from "react-router-dom";
+import { useRef } from "react";
 
 function Header() {
   const [isActive, setIsActive] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
   const navigate = useNavigate();
+  const dropdownRef = useRef(null);
 
   // Check login status on mount
   useEffect(() => {
@@ -33,6 +35,24 @@ function Header() {
   const toggleDropDown = () => {
     setShowDropdown((prev) => !prev);
   };
+
+  // closes the drop down menu when someone clicks outside of it
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target)
+      ) {
+        setShowDropdown(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   const handleLogout = () => {
     console.log("Logging out...");
@@ -79,7 +99,7 @@ function Header() {
               <GrGroup />
             </Link>
           </li>
-          <li className={styles["nav-item"]}>
+          <li className={styles["nav-item"]} ref={dropdownRef}>
             <div className={styles["nav-link"]} title="sign in">
               {isLoggedIn ? (
                 <span onClick={toggleDropDown}><FaRegUserCircle /></span>

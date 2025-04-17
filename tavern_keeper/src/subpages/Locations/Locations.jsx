@@ -1,5 +1,4 @@
 import Header from "../../components/Header/Header"
-import Sidebar from "../../components/Sidebar/Sidebar"
 import styles from "../Characters/Characters.module.css"
 import WorldOverviewGrid from "../../components/WorldOverviewGrid/WorldOverviewGrid"
 import { useState } from "react"
@@ -8,8 +7,10 @@ import supabase from "../../api/supabase-client"
 import { useParams } from "react-router-dom"
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom"
 
 function Locations() {
+  const [locations, setLocations] = useState([])
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [locationName, setlocationName] = useState('')
   const [description, setDescription] = useState('');
@@ -24,21 +25,33 @@ function Locations() {
         }
     }, [isLoggedIn, navigate]);
 
-  const handleSubmit = async () =>{
-    // const email = localStorage.getItem("email");
+    // fetch the locations
+    useEffect(() => {
+      if (!worldId) return; // Do nothing if worldId is not available yet
 
+      
+      const fetchLocations = async () => {
+          const { data, error } = await supabase
+              .from("Locations")
+              .select("*")
+              .eq("worldID", worldId);
+
+          if (error) {
+              console.error("Error fetching characters:", error);
+          } else {
+              setLocations(data); // Set characters state
+          }
+      };
+
+      fetchLocations();
+  }, [worldId]); // This effect depends on worldId
+
+  const handleSubmit = async () =>{
+
+    // ensure the user enters into all of the input fields
     if(!locationName || !description){
       alert("Please fill in all of the fields")
     } // end of if
-
-
-    /* this matches the user id to the world
-    const { data: userData, error: userError } = await supabase
-    .from("User")
-    .select("id")
-    .eq("email", email)
-    .single();
-    */
 
     try{
       const{error: locationError} = await supabase
@@ -64,15 +77,22 @@ function Locations() {
     return (
       <>
         <Header />
-        <div className={styles.container}>
-          <div className={styles.sidebar}>
-            <Sidebar />
-          </div>
-  
+        <div className={styles.centerWrapper}>
           <div className={styles.content}>
-            <button className={styles.button} onClick={() => setIsPopupOpen(true)}>
-              Add new Location
-            </button>
+            <div className={styles.buttonRow}>
+              <button
+                className={styles.button}
+                onClick={() => setIsPopupOpen(true)}
+              >
+                Add new Location
+              </button>
+
+              <Link to={`/worldOverview/${worldId}`}>
+                <button className={styles.button}>
+                  Navigate back to the world Overview page
+                </button>
+              </Link>
+            </div>
             
             {isPopupOpen && (
               <SubpagesPopup
@@ -90,13 +110,17 @@ function Locations() {
             )}
   
             <WorldOverviewGrid>
-              <div>Name of Location</div>
-              <div>Name of Location</div>
-              <div>Name of Location</div>
-              <div>Name of Location</div>
-              <div>Name of Location</div>
-              <div>Name of Location</div>
-            </WorldOverviewGrid>
+                        {locations.length > 0 ? (
+                            locations.map((location) => (
+                                <div key={location.id}>
+                                    <h3>{location.name}</h3>
+                                    <p>{location.description}</p>
+                                </div>
+                            ))
+                        ) : (
+                            <div>No Locations found</div>
+                        )}
+              </WorldOverviewGrid>
           </div>
         </div>
       </>

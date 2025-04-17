@@ -1,5 +1,4 @@
 import Header from "../../components/Header/Header"
-import Sidebar from "../../components/Sidebar/Sidebar"
 import styles from "../Characters/Characters.module.css"
 import WorldOverviewGrid from "../../components/WorldOverviewGrid/WorldOverviewGrid"
 import { useState } from "react"
@@ -8,12 +7,14 @@ import supabase from "../../api/supabase-client"
 import { useParams } from "react-router-dom"
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom"
 
 function Organizations() {
     const [isPopupOpen, setIsPopupOpen] = useState(false);
     const [organizationName, setOrganizationName] = useState('')
     const [description, setDescription] = useState('');
     const {id: worldId} = useParams()
+    const [organizations, setOrganizations] = useState([]);
     const navigate = useNavigate();
     const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
 
@@ -24,22 +25,33 @@ function Organizations() {
         }
     }, [isLoggedIn, navigate]);
 
+    // fetching characters from database based on worldID
+    useEffect(() => {
+      if (!worldId) return; // Do nothing if worldId is not available yet
+
+      
+      const fetchOrganizations = async () => {
+          const { data, error } = await supabase
+              .from("Organizations")
+              .select("*")
+              .eq("WorldID", worldId);
+
+          if (error) {
+              console.error("Error fetching characters:", error);
+          } else {
+              setOrganizations(data); // Set characters state
+          }
+      };
+
+      fetchOrganizations();
+  }, [worldId]); // This effect depends on worldId
+
     const handleSubmit = async () =>{
-      const email = localStorage.getItem("email");
 
       // ensures that the user fills out all of the fields
       if(!organizationName || !description){
         alert("Please fill in all of the fields")
       } // end of if
-
-
-      // this matches the user id to the world
-      const { data: userData, error: userError } = await supabase
-      .from("User")
-      .select("id")
-      .eq("email", email)
-      .single();
-
 
       try{
         const{error: organizationError} = await supabase
@@ -65,15 +77,22 @@ function Organizations() {
     return (
       <>
         <Header />
-        <div className={styles.container}>
-          <div className={styles.sidebar}>
-            <Sidebar />
-          </div>
-  
+        <div className={styles.centerWrapper}>
           <div className={styles.content}>
-            <button className={styles.button} onClick={() => setIsPopupOpen(true)}>
-              Add new Organization
-            </button>
+            <div className={styles.buttonRow}>
+              <button
+                className={styles.button}
+                onClick={() => setIsPopupOpen(true)}
+              >
+                Add new Organization
+              </button>
+
+              <Link to={`/worldOverview/${worldId}`}>
+                <button className={styles.button}>
+                Navigate back to the world Overview page
+                </button>
+              </Link>
+            </div>
             
             {isPopupOpen && (
               <SubpagesPopup
@@ -90,19 +109,23 @@ function Organizations() {
               </SubpagesPopup>
             )}
   
-            <WorldOverviewGrid>
-              <div>Name of Organization</div>
-              <div>Name of Organization</div>
-              <div>Name of Organization</div>
-              <div>Name of Organization</div>
-              <div>Name of Organization</div>
-              <div>Name of Organization</div>
-            </WorldOverviewGrid>
+              <WorldOverviewGrid>
+                        {organizations.length > 0 ? (
+                            organizations.map((organization) => (
+                                <div key={organization.id}>
+                                    <h3>{organization.Name}</h3>
+                                    <p>{organization.Description}</p>
+                                </div>
+                            ))
+                        ) : (
+                            <div>No Organizations found</div>
+                        )}
+              </WorldOverviewGrid>
           </div>
         </div>
       </>
     );
   }
   
-  export default Organizations;
+export default Organizations;
   

@@ -1,143 +1,167 @@
-import Header from "../../components/Header/Header"
-import Sidebar from "../../components/Sidebar/Sidebar"
-import styles from "../Characters/Characters.module.css"
-import WorldOverviewGrid from "../../components/WorldOverviewGrid/WorldOverviewGrid"
-import { useState } from "react";
+import Header from "../../components/Header/Header";
+import styles from "../Characters/Characters.module.css";
+import WorldOverviewGrid from "../../components/WorldOverviewGrid/WorldOverviewGrid";
+import { useState, useEffect } from "react";
 import SubpagesPopup from "../../components/SubpagesPopup/SubpagesPopup";
 import supabase from "../../api/supabase-client";
 import { useParams } from "react-router-dom";
-import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 function Characters() {
-    const [isPopupOpen, setIsPopupOpen] = useState(false);
-    const [characterName, setCharacterName] = useState('')
-    const [characterURL, setCharacterURL] = useState('')
-    const [characterDescription, setCharacterDescription] = useState('')
-    const { id: worldId } = useParams()
+    const { id: worldId } = useParams();
     const navigate = useNavigate();
     const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+    const [characters, setCharacters] = useState([]);
+    const [isPopupOpen, setIsPopupOpen] = useState(false);
+    const [characterName, setCharacterName] = useState('');
+    const [characterURL, setCharacterURL] = useState('');
+    const [characterDescription, setCharacterDescription] = useState('');
 
-    // ensure the user is signed in, so that the user can not just automatically type in http://localhost:3000/worldOverview/24 and get to that world
-        useEffect(() => {
-            if (!isLoggedIn) {
+    // Ensure the user is logged in
+    useEffect(() => {
+        if (!isLoggedIn) {
             navigate("/signin");
+        }
+    }, [isLoggedIn, navigate]);
+
+    // fetching characters from database based on worldID
+    useEffect(() => {
+        if (!worldId) return; // Do nothing if worldId is not available yet
+
+        
+        const fetchCharacters = async () => {
+            const { data, error } = await supabase
+                .from("Characters")
+                .select("*")
+                .eq("WorldID", worldId);
+
+            if (error) {
+                console.error("Error fetching characters:", error);
+            } else {
+                setCharacters(data); // Set characters state
             }
-        }, [isLoggedIn, navigate]);
-    
+        };
+
+        fetchCharacters();
+    }, [worldId]); // This effect depends on worldId
 
     const handleSubmit = async () => {
-      const email = localStorage.getItem("email");
 
-      // ensures the user fills out all of the fields
-      if(!characterName || !characterURL || !characterDescription){
-        alert("Please fill in all of the fields")
-      }// end of if
+        // Ensure the user fills out all fields
+        if (!characterName || !characterURL || !characterDescription) {
+            alert("Please fill in all of the fields");
+            return;
+        }
 
-      // get the user's id that is signed in
-      const { data: userData, error: userError } = await supabase
-      .from("User")
-      .select("id")
-      .eq("email", email)
-      .single();
+        // Upload image to the storage bucket
+        const file = characterURL;
+        const fileName = `${Date.now()}-${file.name}`;
+        console.log("file name", fileName);
 
-      // error if there if can't find user
-    if (userError || !userData) {
-      console.error("User lookup error:", userError);
-      alert("User not found.");
-      return;
-    }
+        const { data: uploadData, error: uploadError } = await supabase.storage
+            .from("character-portraits")
+            .upload(fileName, file);
 
-    const file = characterURL
-    const fileName = `${Date.now()}-${file.name}`
-    console.log("file name ", fileName)
-    const { data: uploadData, error: uploadError } = await supabase.storage
-    .from("character-portraits")
-    .upload(fileName, file);
+        if (uploadError) {
+            console.error("Upload error", uploadError);
+            alert("Failed to upload image");
+            return;
+        }
 
-    // if the image is not able to be inserted into the bucket
-    if(uploadError){
-      console.error("Upload error ", uploadError)
-      alert("Failed to upload image")
-      return
-    }
+        const publicURLResponse = supabase.storage
+            .from('character-portraits')
+            .getPublicUrl(fileName);
 
-    // gets the url from the character portraits bucket, so that we can send that to the characters table
-    const publicURLResponse = supabase.storage
-    .from('character-portraits')
-    .getPublicUrl(fileName)
+        const publicURL = publicURLResponse.data.publicUrl;
 
-    const publicURL = publicURLResponse.data.publicUrl;
+        // Insert character data into the Characters table
+        try {
+            const { error: characterError } = await supabase
+                .from("Characters")
+                .insert([
+                    {
+                        Name: characterName,
+                        Description: characterDescription,
+                        PortraitURL: publicURL,
+                        WorldID: worldId,
+                    }
+                ]);
 
-      try{
-          const{error: characterError} = await supabase
-          .from("Characters")
-          .insert([
-            {
-              Name: characterName, // enters the character name
-              Description: characterDescription, // enters the character description
-              PortraitURL: publicURL, // enters the character portrait URL
-              WorldID: worldId // gets the id of the world connected to the user. Will probably have to change later to ensure it matches the specific world we want to pull up 
+            if (characterError) {
+                alert("There was an error inserting your character");
+                console.error("error", characterError);
+            } else {
+                alert("Your character was successfully uploaded");
             }
-          ])
-          if(characterError){
-            alert("There was an error inserting your character")
-            console.error("error ", characterError)
-          } // end of if
-          else{
-            alert("your character was successfully uploaded")
-          }
-      } catch(error){
-        console.error("error ", error)
-      }
-  }// end of handleSubmit
+        } catch (error) {
+            console.error("error", error);
+        }
+    };
 
-  
     return (
-      <>
-        <Header />
-        <div className={styles.container}>
-          <div className={styles.sidebar}>
-            <Sidebar />
-          </div>
-  
-          <div className={styles.content}>
-            <button className={styles.button} onClick={() => setIsPopupOpen(true)}>
-              Add new Character
-            </button>
-            
-            {isPopupOpen && (
-              <SubpagesPopup
-                closeModal={setIsPopupOpen}
-                showPicture={true} // Set to false to hide the picture input
-                showDescription={true}
-                showStartDate={false}
-                showEndDate={false}
-                name={characterName}
-                setName={setCharacterName}
-                description={characterDescription}
-                setDescription={setCharacterDescription}
-                picture={characterURL}
-                setPicture={setCharacterURL}
-                handleSubmit={handleSubmit}
-              >
-                Character
-              </SubpagesPopup>
-            )}
-  
-            <WorldOverviewGrid>
-              <div>Name of Character</div>
-              <div>Name of Character</div>
-              <div>Name of Character</div>
-              <div>Name of Character</div>
-              <div>Name of Character</div>
-              <div>Name of Character</div>
-            </WorldOverviewGrid>
-          </div>
-        </div>
-      </>
+        <>
+            <Header />
+            <div className={styles.centerWrapper}>
+                <div className={styles.content}>
+                    <div className={styles.buttonRow}>
+                        <button
+                            className={styles.button}
+                            onClick={() => setIsPopupOpen(true)}
+                        >
+                            Add new Character
+                        </button>
+
+                        <Link to={`/worldOverview/${worldId}`}>
+                            <button className={styles.button}>
+                                Navigate back to the world Overview page
+                            </button>
+                        </Link>
+                    </div>
+
+                    {isPopupOpen && (
+                        <SubpagesPopup
+                            closeModal={setIsPopupOpen}
+                            showPicture={true}
+                            showDescription={true}
+                            showStartDate={false}
+                            showEndDate={false}
+                            name={characterName}
+                            setName={setCharacterName}
+                            description={characterDescription}
+                            setDescription={setCharacterDescription}
+                            picture={characterURL}
+                            setPicture={setCharacterURL}
+                            handleSubmit={handleSubmit}
+                        >
+                            Character
+                        </SubpagesPopup>
+                    )}
+
+                    <WorldOverviewGrid>
+                        {characters.length > 0 ? (
+                            characters.map((character) => (
+                                <div key={character.id}>
+                                    <h3>{character.Name}</h3>
+                                    <img
+                                        src={character.PortraitURL}
+                                        alt={character.Name}
+                                        style={{
+                                            maxWidth: "100%",
+                                            borderRadius: "10px",
+                                            marginTop: "0.5rem",
+                                        }}
+                                    />
+                                </div>
+                            ))
+                        ) : (
+                            <div>No Characters found</div>
+                        )}
+                    </WorldOverviewGrid>
+                </div>
+            </div>
+        </>
     );
-  }
-  
-  export default Characters;
-  
+}
+
+export default Characters;

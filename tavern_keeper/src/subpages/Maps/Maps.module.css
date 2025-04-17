@@ -1,6 +1,30 @@
+.centerWrapper {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    width: 100%;
+  }
+  .content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+.buttonRow {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    margin-top: 20%;
+    flex-wrap: wrap;
+}
 .button {
-    margin-top: 20px;
-    padding: 10px 20px;
+    padding: 12px 24px;
     background: linear-gradient(45deg, #ff8c00, #ffcc00);
     border: none;
     border-radius: 10px;
@@ -8,25 +32,10 @@
     color: white;
     cursor: pointer;
     transition: all 0.3s ease-in-out;
-    margin-top: 5%;
 }
+  
 .button:hover {
     background: linear-gradient(45deg, #ffcc00, #ff8c00);
     transform: scale(1.05);
 }
-.container {
-    display: flex;
-    align-items: flex-start;
-    justify-content: center;
-    width: 100%;
-    gap: 20px;
-    padding: 20px;
-}
-.content {
-    flex-grow: 1;
-    max-width: 800px;
-    margin-left: 15%; /*This moves the grid left */
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
+  

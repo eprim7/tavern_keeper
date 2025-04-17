@@ -1,5 +1,4 @@
 import Header from "../../components/Header/Header"
-import Sidebar from "../../components/Sidebar/Sidebar"
 import styles from "../Characters/Characters.module.css"
 import WorldOverviewGrid from "../../components/WorldOverviewGrid/WorldOverviewGrid"
 import { useState } from "react"
@@ -8,8 +7,10 @@ import supabase from "../../api/supabase-client"
 import { useParams } from "react-router-dom"
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom"
 
 function Timelines() {
+  const [events, setEvents] = useState([])
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [eventName, setEventName] = useState('')
   const [description, setDescription] = useState('');
@@ -17,7 +18,7 @@ function Timelines() {
   const [endDate, setEndDate] = useState(null)
   const { id: worldId } = useParams()
   const navigate = useNavigate();
-    const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+  const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
 
   // ensure the user is signed in, so that the user can not just automatically type in http://localhost:3000/worldOverview/24 and get to that world
     useEffect(() => {
@@ -26,21 +27,33 @@ function Timelines() {
         }
     }, [isLoggedIn, navigate]);
 
+    // fetch the events
+    useEffect(() => {
+      if (!worldId) return; // Do nothing if worldId is not available yet
+
+      
+      const fetchEvents = async () => {
+          const { data, error } = await supabase
+              .from("Events")
+              .select("*")
+              .eq("worldID", worldId);
+
+          if (error) {
+              console.error("Error fetching characters:", error);
+          } else {
+              setEvents(data); // Set characters state
+          }
+      };
+
+      fetchEvents();
+  }, [worldId]); // This effect depends on worldId
+
+
   const handleSubmit = async () =>{
-    // const email = localStorage.getItem("email");
 
     if(!eventName || !description){
       alert("Please fill in all of the fields")
     } // end of if
-
-
-    /* this matches the user id to the world
-    //const { data: userData, error: userError } = await supabase
-    //.from("User")
-    //.select("id")
-    //.eq("email", email)
-    //.single();
-    */
 
     // actually insert the data into the events table
     try{
@@ -70,15 +83,22 @@ function Timelines() {
     return (
       <>
         <Header />
-        <div className={styles.container}>
-          <div className={styles.sidebar}>
-            <Sidebar />
-          </div>
-  
+        <div className={styles.centerWrapper}>
           <div className={styles.content}>
-            <button className={styles.button} onClick={() => setIsPopupOpen(true)}>
-              Add new Timeline
-            </button>
+            <div className={styles.buttonRow}>
+              <button
+                className={styles.button}
+                onClick={() => setIsPopupOpen(true)}
+              >
+                Add new Timeline
+              </button>
+
+              <Link to={`/worldOverview/${worldId}`}>
+                <button className={styles.button}>
+                  Navigate back to the world Overview page
+                </button>
+              </Link>
+            </div>
             
             {isPopupOpen && (
               <SubpagesPopup
@@ -101,14 +121,18 @@ function Timelines() {
               </SubpagesPopup>
             )}
   
-            <WorldOverviewGrid>
-              <div>Name of Timeline</div>
-              <div>Name of Timeline</div>
-              <div>Name of Timeline</div>
-              <div>Name of Timeline</div>
-              <div>Name of Timeline</div>
-              <div>Name of Timeline</div>
-            </WorldOverviewGrid>
+              <WorldOverviewGrid>
+                        {events.length > 0 ? (
+                            events.map((event) => (
+                                <div key={event.id}>
+                                    <h3>{event.name}</h3>
+                                    <p>{event.description}</p>
+                                </div>
+                            ))
+                        ) : (
+                            <div>No Events found</div>
+                        )}
+              </WorldOverviewGrid>
           </div>
         </div>
       </>
