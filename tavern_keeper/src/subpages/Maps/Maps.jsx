@@ -99,6 +99,10 @@ function Maps() {
     }
   };
 
+  const clickFunction = () => {
+    console.log("this is the passed onClick.");
+  }
+
   return (
     <>
       <Header />
@@ -136,8 +140,8 @@ function Maps() {
             </SubpagesPopup>
           )}
 
-          <WorldOverviewGrid>
-            {maps.length > 0 ? (
+          <WorldOverviewGrid
+            children={maps.length > 0 ? (
               maps.map((map) => (
                 <div key={map.id}>
                   <h3>{map.name}</h3>
@@ -151,7 +155,9 @@ function Maps() {
             ) : (
               <div>No Maps were found</div>
             )}
-          </WorldOverviewGrid>
+
+            handleClick={clickFunction}
+          />
         </div>
       </div>
     </>

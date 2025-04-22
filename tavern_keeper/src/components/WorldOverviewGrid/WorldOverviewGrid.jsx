@@ -1,13 +1,14 @@
 import React from "react";
 import styles from "./WorldOverviewGrid.module.css";
 
-const WorldOverviewGrid = ({ children }) => {
+const WorldOverviewGrid = ({ children, handleClick }) => {
+
   return (
     <div className={styles.grid}>
       {React.Children.map(children, (child, index) => (
-        <div key={index} className={styles.item}>
+        <button key={index} className={styles.item} onClick={handleClick}>
           {child}
-        </div>
+        </button>
       ))}
     </div>
   );
