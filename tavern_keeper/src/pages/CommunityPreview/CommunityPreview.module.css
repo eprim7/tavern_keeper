@@ -1,0 +1,114 @@
+.bannerwrapper {
+    background: url('/public/assets/home.png') no-repeat center center;
+    background-size: cover;
+    width: 100%;
+    height: 450px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 50px;
+    padding: 20px;
+    color: white;
+    border: 5px solid black;
+}
+.introwrapper {
+    width: 100%;
+    text-align: center;
+    padding-top: 10px;
+    padding-bottom: 30px;
+}
+.introwrapper label, h1, p {
+    padding: 10px;
+}
+.authorlabel {
+    font-style: italic;
+    background-image: linear-gradient(45deg, #ff8c00, #ffcc00);
+    background-size: 100%;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -moz-background-clip: text;
+    -webkit-text-fill-color: transparent; 
+    -moz-text-fill-color: transparent;
+}
+.sectionwrapper {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(250px, 1fr));
+    gap: 20px;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    
+}
+.charImg {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin-top: 0.5rem;
+    max-height: 200px;
+    object-fit: contain;
+}
+.mapImg {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin-top: 0.5rem;
+    max-height: 200px;
+    object-fit: contain;
+}
+.entryImgCard {
+    background: #222;
+    color: white;
+    padding: 15px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 2px 2px 5px rgba(255, 255, 255, 0.2);
+    font-size: 1.2rem;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 300px;
+}
+.entryCard {
+    background: #222;
+    color: white;
+    padding: 15px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 2px 2px 5px rgba(255, 255, 255, 0.2);
+    font-size: 1.2rem;
+    overflow: scroll;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 150px;
+}
+.sectionHeader {
+    border-bottom: 2px solid black;
+}
+.likeWrapper {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    align-items: center;
+    top: 94%;
+    right: 1%;
+    background: white;
+    border-radius: 10px;
+}
+.likeButton {
+    width: 2.5em;
+    height: 2.5em;
+    border: none;
+    background: white;
+    border-radius: 50%;
+    border: 1px solid black;
+    padding: 2px;
+}
+.likeButton:hover {
+    transform: scale(1.10);
+    cursor: pointer;
+}

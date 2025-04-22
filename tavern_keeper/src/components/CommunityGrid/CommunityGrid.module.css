@@ -17,6 +17,7 @@
     box-shadow: 2px 2px 5px rgba(255, 255, 255, 0.2);
     font-size: 1.2rem;
     height: 300px;
+    overflow:auto;
     
 }
 .banner {
@@ -25,4 +26,42 @@
     width: 100%;
     height: 125px;
     margin-bottom: 10px;
+}
+
+.genreLabel {
+    font-size: 1rem;
+}
+.authorLabel {
+    font-size: 1rem;
+    font-style: italic;
+    background-image: linear-gradient(45deg, #ff8c00, #ffcc00);
+    background-size: 100%;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -moz-background-clip: text;
+    -webkit-text-fill-color: transparent; 
+    -moz-text-fill-color: transparent;
+}
+.likeWrapper {
+    display: inline;
+}
+.viewButton {
+    background: linear-gradient(45deg, #ff8c00, #ffcc00);
+    border: none;
+    border-radius: 5px;
+    color: white;
+    height: 20px;
+    width: 40px;
+
+}
+.viewButton:hover {
+    cursor: pointer;
+    transform: scale(1.2);
+}
+.bottomWrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+    padding: 2px;
 }

@@ -3,6 +3,8 @@ import styles from "./CommunityGrid.module.css";
 import { getUserByUserID } from "../../api/world_accessor";
 import { useEffect } from "react";
 import { useState } from "react";
+import { Link } from "react-router-dom";
+import { BsHandThumbsUp } from "react-icons/bs";
 
 //takes in a sliced list of worlds
 //returns each as a communityitem
@@ -13,6 +15,7 @@ const CommunityGrid = ({ communityData }) => {
                 return (
                     <WorldItem
                         key={index}
+                        id={world.id}
                         name={world.title}
                         author={world.userID}
                         genre={world.genre}
@@ -26,16 +29,17 @@ const CommunityGrid = ({ communityData }) => {
 
 }
 
-const WorldItem = ({name, author, genre, description, likes}) => {
+const WorldItem = ({id, name, author, genre, description, likes}) => {
     const [authorName, setAuthorName] = useState("Loading...");
 
     useEffect(() => {
         const fetchAuthor = async () => {
             const data = await getUserByUserID(author);
-            if (data?.userName) {
+            if (data.userName) {
                 setAuthorName(data.userName);
             } else {
-                setAuthorName("Unknown");
+                const email = data.email;
+                setAuthorName(email.substring(0, email.length - 10));
             }
         };
         fetchAuthor();
@@ -45,11 +49,19 @@ const WorldItem = ({name, author, genre, description, likes}) => {
         <div className={styles.griditem}>
             <div className={styles.banner}></div>
             <h2>{name}</h2>
-            <h3>{description}</h3>
-            <h3>author: {authorName}</h3>
-            <h3>{genre}</h3>
-            <h3>{likes}</h3>
-            <button>View</button>
+            <p style={{padding:"0px"}}>{description}</p>
+            <label className={styles.authorLabel}>{authorName}</label> <br/>
+            <label className={styles.genreLabel}>{genre}</label> <br/>
+            <div className={styles.bottomWrapper}>
+                <label>{likes}</label>
+                <div className={styles.likeWrapper}>
+                    <BsHandThumbsUp/>
+                </div> 
+                <Link to={`/communityPreview/${id}`} key={id}>
+                    <button className={styles.viewButton}>view</button>
+                </Link>
+            </div>
+            
         </div>
     );
 }

@@ -1,10 +1,22 @@
 import Header from "../../components/Header/Header"
 import styles from "../Account/Account.module.css";
 import { LuPencil } from "react-icons/lu";
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 
 function Account() {
-    const [description, setDescription] = useState('This is my description');
+    const [description, setDescription] = useState('');
+    const [username, setUsername] = useState('');
+    let storedUsername = localStorage.getItem('username');
+    console.log("username: ", username);
+    useEffect(() => {
+        if(storedUsername == null){
+            let storedEmail = localStorage.getItem('email');
+            setUsername(storedEmail.substring(0, storedEmail.length - 10));
+        } else {
+            setUsername(storedUsername);
+        }
+    }, []);
+
     const ProfilePicture = (props) => {
         return (
             <button className={styles.profileButton}>
@@ -18,7 +30,8 @@ function Account() {
 
     const Description = (props) => {
         return (
-            <input type="text" value={props.text} className={styles.description} placeholder="Tell use a little about yourself" onChange={updateDescription}></input>
+            //<input type="text" value={props.text} className={styles.description} placeholder="Tell us a little about yourself" onChange={updateDescription}></input>
+            <textarea placeholder="Tell us a little about yourself..."/>
         );
     }
 
@@ -30,7 +43,7 @@ function Account() {
             <div className={styles.bannerwrapper}>
                 <ProfilePicture image="/assets/logo.png"/>
                 <div className={styles.usernamewrapper}>
-                    <h1>Username</h1>
+                    <h1>{username}</h1>
                     <div className={styles.pencil}>
                         <button className={styles.pencilbutton}>
                             <LuPencil style={{width: '2em', height: '2em'}}/>

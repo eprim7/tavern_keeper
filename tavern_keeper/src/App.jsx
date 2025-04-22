@@ -14,6 +14,7 @@ import Timelines from './subpages/Timelines/Timelines';
 import Miscellaneous from './subpages/Miscellaneous/Miscellaneous';
 import PageNotFound from './pages/404/404';
 import Test from './pages/Test/Test';
+import CommunityPreview from './pages/CommunityPreview/CommunityPreview';
 
 
 function App() {
@@ -25,6 +26,7 @@ function App() {
         <Route path='/world' element={<World />}/>
         <Route path='/account' element={<Account />}/>
         <Route path='/community' element={<Community />}/>
+          <Route path='/communityPreview/:id' element={<CommunityPreview />}/>
         <Route path='/signin' element={<Signin />}/>
         <Route path='/worldOverview/:id' element={<WorldOverview />}/>
         <Route path='/Test' element={<Test />}/>   

@@ -205,9 +205,6 @@
 .innersubmenuitem:hover {
     cursor: pointer;
 }
-.closefilter {
-
-}
 .closefilterinactive {
     opacity: 0;
     pointer-events: none;
