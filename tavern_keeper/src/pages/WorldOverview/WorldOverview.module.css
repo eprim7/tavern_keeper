@@ -1,99 +1,90 @@
 .title {
-    text-align: center;
-    font-size: 2rem;
-}
-  
-.sidebar {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 12%;
-    min-width: 150px;
-    height: auto;
-    margin-left: 12%;
-    margin-top: 20px;
-    backdrop-filter: blur(10px);
-    border-radius: 20px;
-    transition: all 0.3s ease-in-out;
+  text-align: center;
+  font-size: 2rem;
+  margin: 20px 0;
 }
 
 .pageWrapper {
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
+  display: flex;
+  flex-direction: row; /* keep side-by-side layout always */
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 20px;
+  gap: 20px;
 }
-  .middleContainer {
-    text-align: center;
-    background-color: rgba(255, 255, 255, 0.1);
-    padding: 20px;
-    border-radius: 10px;
-    max-width: 600px;
-    width: 100%;
-    margin-top: -300px;
+
+/* Sidebar always on the left */
+.sidebar {
+  width: 200px;
+  min-width: 150px;
+  height: auto;
+  background-color: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border-radius: 15px;
+  padding: 15px;
+  flex-shrink: 0; /* prevents it from shrinking too small */
 }
-  
+
+/* Centered world info content */
+.worldInfoContainer {
+  flex: 1;
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  text-align: center;
+}
+
 .infoRow {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    justify-content: center;
-    flex-wrap: wrap;
-    margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
 }
-  
+
 .h1 {
-    color: #ff8c00;
-    margin: 0;
-    font-size: 1.5rem;
+  color: #ff8c00;
+  margin: 0;
+  font-size: 1.5rem;
 }
-  
-  @media (max-width: 1024px) {
-    .sidebar {
-      width: 20%;
-      margin-left: 5%;
-    }
-  
-    .middleContainer {
-      margin-top: -150px;
-    }
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .title {
+    font-size: 1.5rem;
   }
-  
-  @media (max-width: 768px) {
-    .sidebar {
-      width: 90%;
-      position: static;
-      margin: 0 auto 20px auto;
-      border-radius: 10px;
-    }
-  
-    .pageWrapper {
-      flex-direction: column;
-      align-items: center;
-      padding: 20px;
-    }
-  
-    .middleContainer {
-      transform: none;
-      width: 90%;
-    }
-  
-    .title {
-      font-size: 1.5rem;
-    }
-  
-    .h1 {
-      font-size: 1.2rem;
-    }
+
+  .h1 {
+    font-size: 1.2rem;
   }
-  @media (max-width: 480px) {
-    .infoRow {
-      flex-direction: column;
-      text-align: center;
-    }
-  
-    .middleContainer {
-      margin-top: -80px;
-      padding: 15px;
-    }
+
+  .sidebar {
+    width: 120px;
+    padding: 10px;
   }
-  
+
+  .worldInfoContainer {
+    padding: 15px;
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .infoRow {
+    flex-direction: column;
+  }
+  .sidebar{
+    width: 70px;
+  }
+  .h1{
+    font-size: 0.8rem;
+  }
+  .label{
+    font-size: 1.4rem;
+    margin-left: -5%;
+  }
+
+}
