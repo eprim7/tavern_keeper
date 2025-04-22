@@ -78,6 +78,8 @@
   }
   .sidebar{
     width: 70px;
+    height: 50vh;
+    padding: 12px;
   }
   .h1{
     font-size: 0.8rem;
