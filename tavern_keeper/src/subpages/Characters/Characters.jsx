@@ -33,7 +33,7 @@ function Characters() {
             const { data, error } = await supabase
                 .from("Characters")
                 .select("*")
-                .eq("WorldID", worldId);
+                .eq("worldID", worldId);
 
             if (error) {
                 console.error("Error fetching characters:", error);
@@ -82,10 +82,10 @@ function Characters() {
                 .from("Characters")
                 .insert([
                     {
-                        Name: characterName,
-                        Description: characterDescription,
-                        PortraitURL: publicURL,
-                        WorldID: worldId,
+                        name: characterName,
+                        description: characterDescription,
+                        pictureURL: publicURL,
+                        worldID: worldId,
                     }
                 ]);
 
@@ -144,10 +144,10 @@ function Characters() {
                         {characters.length > 0 ? (
                             characters.map((character) => (
                                 <div key={character.id}>
-                                    <h3>{character.Name}</h3>
+                                    <h3>{character.name}</h3>
                                     <img
-                                        src={character.PortraitURL}
-                                        alt={character.Name}
+                                        src={character.pictureURL}
+                                        alt={character.name}
                                         className={styles.mapImage}
                                     />
                                 </div>

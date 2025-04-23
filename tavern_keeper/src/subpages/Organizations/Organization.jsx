@@ -65,9 +65,9 @@ function Organizations() {
         .from("Organizations")
         .insert([
           {
-            WorldID: worldId,
-            Name: organizationName, // gets the organization name
-            Description: description, // gets teh organization description
+            worldID: worldId,
+            name: organizationName, // gets the organization name
+            description: description, // gets teh organization description
           }
         ])
         if(organizationError){
@@ -121,8 +121,8 @@ function Organizations() {
                         {organizations.length > 0 ? (
                             organizations.map((organization) => (
                                 <div key={organization.id}>
-                                    <h3>{organization.Name}</h3>
-                                    <p>{organization.Description}</p>
+                                    <h3>{organization.name}</h3>
+                                    <p>{organization.description}</p>
                                 </div>
                             ))
                         ) : (

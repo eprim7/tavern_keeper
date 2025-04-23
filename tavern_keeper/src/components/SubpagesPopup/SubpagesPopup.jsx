@@ -18,7 +18,8 @@ const SubpagesPopup = ({
   endDate, // stores end date
   setEndDate, // sets end date
   showStartDate, // determines if the start date input needs to be shown
-  showEndDate // determine if end date input needs to be shown
+  showEndDate, // determine if end date input needs to be shown
+  data  // default data to be displayed in the popup
 }) => {
 
   return (
