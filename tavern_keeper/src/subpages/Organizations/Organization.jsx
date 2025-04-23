@@ -11,6 +11,7 @@ import { Link } from "react-router-dom"
 
 function Organizations() {
     const [isPopupOpen, setIsPopupOpen] = useState(false);
+    const [defaultData, setDefaultData] = useState(null);
     const [organizationName, setOrganizationName] = useState('')
     const [description, setDescription] = useState('');
     const {id: worldId} = useParams()
@@ -35,7 +36,7 @@ function Organizations() {
           const { data, error } = await supabase
               .from("Organizations")
               .select("*")
-              .eq("WorldID", worldId);
+              .eq("worldID", worldId);
 
           if (error) {
               console.error("Error fetching characters:", error);
@@ -81,6 +82,15 @@ function Organizations() {
         console.error("Error ", error)
       }
     } // end of handleSubmit
+
+    const clickFunction = (data) => {
+      console.log("I got Clicked! Yay!");
+      if(data) {
+        console.log(`Organizaion's name: ${data.name}`);
+        setDefaultData(data);
+        setIsPopupOpen(true);
+      }
+    }
   
     return (
       <>
@@ -112,23 +122,26 @@ function Organizations() {
                 description={description}
                 setDescription={setDescription}
                 handleSubmit={handleSubmit}
+                data={defaultData}
               >
                 Organization
               </SubpagesPopup>
             )}
   
-              <WorldOverviewGrid>
-                        {organizations.length > 0 ? (
-                            organizations.map((organization) => (
-                                <div key={organization.id}>
-                                    <h3>{organization.name}</h3>
-                                    <p>{organization.description}</p>
-                                </div>
-                            ))
-                        ) : (
-                            <div>No Organizations found</div>
-                        )}
-              </WorldOverviewGrid>
+              <WorldOverviewGrid
+                children={organizations.length > 0 ? (
+                  organizations.map((organization) => (
+                      <div key={organization.id}>
+                          <h3>{organization.name}</h3>
+                          <p>{organization.description}</p>
+                      </div>
+                  ))
+                ) : (
+                  <div>No Organizations found</div>
+                )}
+                data={organizations}
+                handleClick={clickFunction}
+              />
           </div>
         </div>
       </>

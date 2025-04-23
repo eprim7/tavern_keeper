@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styles from "../SubpagesPopup/SubpagesPopup.module.css";
 
 const SubpagesPopup = ({
@@ -22,6 +22,12 @@ const SubpagesPopup = ({
   data  // default data to be displayed in the popup
 }) => {
 
+  useEffect(() => {
+    if (data && data.name !== undefined) {
+      setName(data.name);
+    }
+  }, [data])
+
   return (
     <div className={styles.modalBackground}>
       <div className={styles.modalContainer}>
@@ -31,7 +37,7 @@ const SubpagesPopup = ({
           </button>
         </div>
         <div className={styles.title}>
-          <h1 className={styles.h1}>Create Your {children}</h1>
+          <h1 className={styles.h1}>{data ? 'Edit' : 'Create'} Your {children}</h1>
           <hr />
         </div>
 
@@ -43,6 +49,7 @@ const SubpagesPopup = ({
             type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}
+            defaultValue={data ? data.name : undefined}
             placeholder={`Enter ${children} name`}
             className={styles.nameInput}
             id={`${children}-name`}
@@ -62,6 +69,7 @@ const SubpagesPopup = ({
               className={styles.pictureInput}
               id={`${children}-picture`}
               name={`${children}-picture`}
+              defaultValue={data ? data.pictureURL : undefined}
             />
           </div>
         )}
@@ -75,6 +83,7 @@ const SubpagesPopup = ({
                       className={styles.pictureInput}
                       id={`${children}-description`}
                       name={`${children}-description`}
+                      defaultValue={data ? data.description : undefined}
                     />
                   </div>
         )}
@@ -89,6 +98,7 @@ const SubpagesPopup = ({
                               className={styles.pictureInput}
                               id={`${children}-description`}
                               name={`${children}-description`}
+                              defaultValue={data ? data.startDate : undefined}
                             />
                           </div>
           )}
@@ -103,6 +113,7 @@ const SubpagesPopup = ({
                               className={styles.pictureInput}
                               id={`${children}-description`}
                               name={`${children}-description`}
+                              defaultValue={data ? data.endDate : undefined}
                             />
                           </div>
           )}
