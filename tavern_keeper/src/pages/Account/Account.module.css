@@ -4,24 +4,34 @@
     width: 100%;
     height: 250px;
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
-    justify-content: left;
-    gap: 50px;
+    justify-content: center;
+    gap: 20px;
     padding: 20px;
     color: white;
+    text-align: center;
 }
+
 .profilepicture {
     border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
 }
+
 .usernamewrapper {
     display: flex;
-    align-content: center;
+    align-items: center;
     justify-content: center;
-    gap: 15px;
+    gap: 10px;
+    flex-wrap: wrap;
 }
+
 .pencil {
-    padding-top: 15px;
+    padding-top: 5px;
 }
+
 .pencilbutton {
     width: 2.5em;
     height: 2.5em;
@@ -29,17 +39,32 @@
     background: white;
     border-radius: 50%;
 }
+
 .pencilbutton:hover {
-    opacity: .5;
+    opacity: 0.5;
     background: white;
     cursor: pointer;
 }
-.contentwrapper {
-    width: 100%;
-}
-.description {
 
+.contentwrapper {
+    width: 90%;
+    max-width: 800px;
+    margin: 20px auto;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
 }
+
+textarea {
+    width: 100%;
+    height: 100px;
+    resize: vertical;
+    padding: 10px;
+    font-size: 1em;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
 .profileButton {
     background: white;
     border: none;
@@ -48,19 +73,55 @@
     justify-content: center;
     display: flex;
 }
+
 .profileButton:hover {
-    opacity: .5;
+    opacity: 0.5;
     cursor: pointer;
 }
+
 .updateButton {
     background: linear-gradient(45deg, #ff8c00, #ffcc00);
     border-radius: 5px;
     color: white;
     border: none;
-    width: 70px;
-    height: 30px;
+    width: 100px;
+    height: 35px;
+    font-size: 1em;
+    align-self: flex-start;
 }
+
 .updateButton:hover {
     transform: scale(1.1);
     cursor: pointer;
+}
+
+.worldsWrapper {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.genreLabel {
+    font-weight: bold;
+}
+
+/* Media Queries */
+@media screen and (max-width: 768px) {
+    .bannerwrapper {
+        height: auto;
+        flex-direction: column;
+    }
+
+    .profilepicture {
+        width: 80px;
+        height: 80px;
+    }
+
+    .usernamewrapper {
+        flex-direction: column;
+    }
+
+    .updateButton {
+        width: 100%;
+    }
 }
