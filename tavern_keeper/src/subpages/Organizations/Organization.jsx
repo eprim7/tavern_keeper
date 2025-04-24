@@ -53,7 +53,7 @@ function Organizations() {
 
 
   // submit all of the data into the Organizations table
-    const handleSubmit = async () =>{
+    const handleSubmit = async (data) =>{
 
       // ensures that the user fills out all of the fields
       if(!organizationName || !description){
@@ -61,25 +61,48 @@ function Organizations() {
         return;
       } // end of if
 
-      try{
-        const{error: organizationError} = await supabase
-        .from("Organizations")
-        .insert([
-          {
-            worldID: worldId,
-            name: organizationName, // gets the organization name
-            description: description, // gets teh organization description
+
+      if(!data) {
+        try{
+          const{error: organizationError} = await supabase
+          .from("Organizations")
+          .insert([
+            {
+              worldID: worldId,
+              name: organizationName, // gets the organization name
+              description: description, // gets teh organization description
+            }
+          ])
+          if(organizationError){
+            alert("There was an error inserting your organization")
           }
-        ])
-        if(organizationError){
-          alert("There was an error inserting your organization")
+          else{
+            alert("Your organization was successfully uploaded")
+            fetchOrganizations()
+          }
+        } catch(error){
+          console.error("Error ", error)
         }
-        else{
-          alert("Your organization was successfully uploaded")
-          fetchOrganizations()
+      } else {
+        try{
+          const{error: organizationError} = await supabase
+          .from("Organizations")
+          .update(
+            {
+              name: organizationName, // gets the organization name
+              description: description, // gets teh organization description
+            }
+          ).eq("id", data.id);
+          if(organizationError){
+            alert("There was an error inserting your organization")
+          }
+          else{
+            alert("Your organization was successfully updated")
+            fetchOrganizations()
+          }
+        } catch(error){
+          console.error("Error ", error)
         }
-      } catch(error){
-        console.error("Error ", error)
       }
     } // end of handleSubmit
 

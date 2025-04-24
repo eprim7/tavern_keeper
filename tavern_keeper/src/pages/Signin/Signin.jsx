@@ -49,7 +49,7 @@ function Signin() {
                 .from("User")
                 .insert({
                   email: res.data.email, // get the email from google 
-                  userName: '', // blank username that will be filled in later in account page
+                  userName: null, // blank username that will be filled in later in account page
                   description: '' // blank description that will be filled in later in account page
                 });
   
