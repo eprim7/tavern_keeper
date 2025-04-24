@@ -48,7 +48,7 @@ function Maps() {
   }, [worldId]);
 
   // submitting the data into the database
-  const handleSubmit = async () => {
+  const handleSubmit = async (data) => {
 
     if (!mapName || !mapURL) {
       alert("Please fill in all of the fields");
