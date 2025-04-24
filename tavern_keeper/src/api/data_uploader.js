@@ -12,7 +12,7 @@ export async function updateUsername(email, username) {
 }
 
 export async function updateUserDescription(email, description) {
-    const {data, error} = await supabase.from("User").update({description: description}).eq("description", description);
+    const {data, error} = await supabase.from("User").update({description: description}).eq("email", email);
 
     if(error) {
         console.log("Failed to update the user's description");

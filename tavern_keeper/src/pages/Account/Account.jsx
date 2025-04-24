@@ -2,20 +2,39 @@ import Header from "../../components/Header/Header"
 import styles from "../Account/Account.module.css";
 import { LuPencil } from "react-icons/lu";
 import React, {useEffect, useState} from 'react';
+import ProfilePicturePopup from "../../components/ProfilePicturePopup/ProfilePicturePopup"
+import UsernamePopup from "../../components/UsernamePopup/UsernamePopup"
+import { updateUserDescription } from "../../api/data_uploader";
+import { getUserByEmail } from "../../api/world_accessor";
+import { getPlayerWorlds } from "../../api/world_accessor";
 
 function Account() {
     const [description, setDescription] = useState('');
     const [username, setUsername] = useState('');
-    let storedUsername = localStorage.getItem('username');
-    console.log("username: ", username);
-    useEffect(() => {
-        if(storedUsername == null){
-            let storedEmail = localStorage.getItem('email');
+    const [userPopupOpen, setUserPopupOpen] = useState(false);
+    const [userWorlds, setUserWorlds] = useState([]);
+    const [totalLikes, setTotalLikes] = useState(0);
+    
+    async function fetchUser() {
+       const storedEmail = localStorage.getItem("email");
+       const user = await getUserByEmail(storedEmail);
+       if(user.userName) {
+            setUsername(user.userName);
+       } else {
             setUsername(storedEmail.substring(0, storedEmail.length - 10));
-        } else {
-            setUsername(storedUsername);
-        }
-    }, []);
+       }
+       setDescription(user.description);
+       const worldData = await getPlayerWorlds(storedEmail);
+       setUserWorlds(worldData);
+       var likecnt = 0;
+       worldData.forEach((world) => likecnt += world.likes);
+       setTotalLikes(likecnt);
+    }
+    useEffect(() => {
+        fetchUser()
+    }, [username]);
+
+    
 
     const ProfilePicture = (props) => {
         return (
@@ -24,17 +43,31 @@ function Account() {
             </button>
         );
     }
-    const updateDescription = (event) => {
-        setDescription(event.target.value);
+
+    const handleSubmit = async () => {
+        const storedEmail = localStorage.getItem("email");
+        await updateUserDescription(storedEmail, description);
+        console.log(storedEmail, description);
+        alert("description updated!");
+        return;
     }
 
-    const Description = (props) => {
+    function UserWorldContent(props) {
         return (
-            //<input type="text" value={props.text} className={styles.description} placeholder="Tell us a little about yourself" onChange={updateDescription}></input>
-            <textarea placeholder="Tell us a little about yourself..."/>
+            <div className={styles.worldsWrapper}>
+                {props.data.map((world, index) => {
+                    return (
+                        <div key={index}>
+                            <h2>{world.title}</h2>
+                            <p>{world.description}</p>
+                            <label className={styles.genreLabel}>{world.genre}</label> <br/>
+                            <label>{world.likes}</label>
+                        </div>
+                    );
+                })}
+            </div>
         );
     }
-
     
 
     return(
@@ -45,7 +78,7 @@ function Account() {
                 <div className={styles.usernamewrapper}>
                     <h1>{username}</h1>
                     <div className={styles.pencil}>
-                        <button className={styles.pencilbutton}>
+                        <button className={styles.pencilbutton} onClick={() => setUserPopupOpen(true)}>
                             <LuPencil style={{width: '2em', height: '2em'}}/>
                         </button>
                     </div>
@@ -53,10 +86,16 @@ function Account() {
             </div>
             <div className={styles.contentwrapper}>
                 <h1>About Me</h1>
-                <Description text={description}/>
+                <textarea placeholder="Tell us a little about yourself..." value={description} onChange={(e) => setDescription(e.target.value)}/> <br/>
+                <button className={styles.updateButton} onClick={handleSubmit}>Update</button>
                 <h2>Worlds Created</h2>
+                <UserWorldContent data={userWorlds}/>
                 <h2>Total Likes</h2>
+                <label>{totalLikes}</label>
             </div>
+            <ProfilePicturePopup/>
+            {userPopupOpen && <UsernamePopup closeModal={setUserPopupOpen} refreshName={fetchUser}/>}
+            
         </>
     )
 }
