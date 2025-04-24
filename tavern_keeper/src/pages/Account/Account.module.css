@@ -57,14 +57,9 @@
 
 textarea {
     width: 100%;
-    height: 100px;
-    resize: vertical;
-    padding: 10px;
-    font-size: 1em;
-    border-radius: 5px;
-    border: 1px solid #ccc;
+    padding-left: 100px;
+    padding-top: 20px;
 }
-
 .profileButton {
     background: white;
     border: none;
@@ -94,34 +89,36 @@ textarea {
     transform: scale(1.1);
     cursor: pointer;
 }
-
+.descriptionArea {
+    width: 500px;
+    height: 200px;
+    margin-bottom: 5px;
+    border-radius: 10px;
+    padding: 5px;
+}
+.accountHeader {
+    padding: 0px;
+}
 .worldsWrapper {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    grid-template-columns: repeat(2, minmax(250px, 1fr));
     gap: 20px;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
 }
+.worldCard {
+    background: #222;
+    color: white;
+    padding: 15px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 2px 2px 5px rgba(255, 255, 255, 0.2);
+    font-size: 1.2rem;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 300px;
 
-.genreLabel {
-    font-weight: bold;
-}
-
-/* Media Queries */
-@media screen and (max-width: 768px) {
-    .bannerwrapper {
-        height: auto;
-        flex-direction: column;
-    }
-
-    .profilepicture {
-        width: 80px;
-        height: 80px;
-    }
-
-    .usernamewrapper {
-        flex-direction: column;
-    }
-
-    .updateButton {
-        width: 100%;
-    }
 }
