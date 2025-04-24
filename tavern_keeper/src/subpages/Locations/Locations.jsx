@@ -1,7 +1,7 @@
 import Header from "../../components/Header/Header"
 import styles from "../Characters/Characters.module.css"
 import WorldOverviewGrid from "../../components/WorldOverviewGrid/WorldOverviewGrid"
-import { useState } from "react"
+import { use, useState } from "react"
 import SubpagesPopup from "../../components/SubpagesPopup/SubpagesPopup"
 import supabase from "../../api/supabase-client"
 import { useParams } from "react-router-dom"
@@ -12,6 +12,7 @@ import { Link } from "react-router-dom"
 function Locations() {
   const [locations, setLocations] = useState([])
   const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [defaultData, setDefaultData] = useState(null);
   const [locationName, setlocationName] = useState('')
   const [description, setDescription] = useState('');
   const {id: worldId} = useParams()
@@ -80,6 +81,14 @@ function Locations() {
     }
   } // end of handleSubmit
   
+  const clickFunction = (data) => {
+    if(data) {
+      console.log(`Location Name: ${data.name}`);
+      setDefaultData(data);
+      setIsPopupOpen(true);
+    }
+  }
+
     return (
       <>
         <Header />
@@ -110,13 +119,14 @@ function Locations() {
                 description={description}
                 setDescription={setDescription}
                 handleSubmit={handleSubmit}
+                data={defaultData}
               >
                 Location
               </SubpagesPopup>
             )}
   
-            <WorldOverviewGrid>
-                        {locations.length > 0 ? (
+            <WorldOverviewGrid
+                        children={locations.length > 0 ? (
                             locations.map((location) => (
                                 <div key={location.id}>
                                     <h3>{location.name}</h3>
@@ -126,7 +136,9 @@ function Locations() {
                         ) : (
                             <div>No Locations found</div>
                         )}
-              </WorldOverviewGrid>
+                        data={locations}
+                        handleClick={clickFunction}
+                        />
           </div>
         </div>
       </>

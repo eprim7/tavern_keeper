@@ -22,11 +22,11 @@ const SubpagesPopup = ({
   data  // default data to be displayed in the popup
 }) => {
 
-  useEffect(() => {
+  /*useEffect(() => {
     if (data && data.name !== undefined) {
       setName(data.name);
     }
-  }, [data])
+  }, [data])*/
 
   return (
     <div className={styles.modalBackground}>
@@ -47,7 +47,7 @@ const SubpagesPopup = ({
           </label>
           <input
             type="text"
-            value={name}
+            //value={name}
             onChange={(e) => setName(e.target.value)}
             defaultValue={data ? data.name : undefined}
             placeholder={`Enter ${children} name`}
@@ -69,7 +69,6 @@ const SubpagesPopup = ({
               className={styles.pictureInput}
               id={`${children}-picture`}
               name={`${children}-picture`}
-              defaultValue={data ? data.pictureURL : undefined}
             />
           </div>
         )}

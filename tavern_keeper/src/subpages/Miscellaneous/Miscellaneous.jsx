@@ -11,6 +11,7 @@ import supabase from "../../api/supabase-client"
 
 function Miscellaneous() {
     const [isPopupOpen, setIsPopupOpen] = useState(false);
+    const [defaultData, setDefaultData] = useState(null);
     const [miscName, setMiscName] = useState('')
     const [miscDescription, setMiscDescription] = useState('')
     const navigate = useNavigate();
@@ -82,7 +83,13 @@ function Miscellaneous() {
       } // end of catch
     } // end of handleSubmit
 
-
+    const clickFunction = (data) => {
+      if(data) {
+        console.log(`Misc. name: ${misc.name}`)
+        setDefaultData(data);
+        setIsPopupOpen(true);
+      }
+    }
   
     return (
       <>
@@ -114,22 +121,25 @@ function Miscellaneous() {
                 description={miscDescription}
                 setDescription={setMiscDescription}
                 handleSubmit={handleSubmit}
+                data={defaultData}
               >
                 Miscellaneous
               </SubpagesPopup>
             )}
   
-            <WorldOverviewGrid>
-            {misc.length > 0 ? (
-                    misc.map((miscellaneous) => (
-                      <div key={miscellaneous.id}>
-                        <h3>{miscellaneous.name}</h3>
-                         <p>{miscellaneous.description}</p>
-                      </div>
-                    ))) : (
-                            <div>No Miscellaneous items found</div>
-                          )}
-            </WorldOverviewGrid>
+            <WorldOverviewGrid
+              children={misc.length > 0 ? (
+                misc.map((miscellaneous) => (
+                  <div key={miscellaneous.id}>
+                    <h3>{miscellaneous.name}</h3>
+                    <p>{miscellaneous.description}</p>
+                  </div>
+                ))) : (
+                <div>No Miscellaneous items found</div>
+              )}
+              data={misc}
+              handleClick={clickFunction}
+            />
           </div>
         </div>
       </>

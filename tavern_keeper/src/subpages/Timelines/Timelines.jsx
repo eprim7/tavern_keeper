@@ -1,7 +1,7 @@
 import Header from "../../components/Header/Header"
 import styles from "../Characters/Characters.module.css"
 import WorldOverviewGrid from "../../components/WorldOverviewGrid/WorldOverviewGrid"
-import { useState } from "react"
+import { use, useState } from "react"
 import SubpagesPopup from "../../components/SubpagesPopup/SubpagesPopup"
 import supabase from "../../api/supabase-client"
 import { useParams } from "react-router-dom"
@@ -12,6 +12,7 @@ import { Link } from "react-router-dom"
 function Timelines() {
   const [events, setEvents] = useState([])
   const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [defaultData, setDefaultData] = useState(null);
   const [eventName, setEventName] = useState('')
   const [description, setDescription] = useState('');
   const [startDate, setStartDate] = useState(null)
@@ -81,6 +82,14 @@ function Timelines() {
       console.error("Error ", error)
     }
   } // end of handleSubmit
+
+  const clickFunction = (data) => {
+    if(data) {
+      console.log(`Event Name: ${data.name}`);
+      setDefaultData(data);
+      setIsPopupOpen(true);
+    }
+  }
   
     return (
       <>
@@ -118,23 +127,26 @@ function Timelines() {
                 endDate={endDate} // gets the end date
                 setEndDate={setEndDate} // sets the end date
                 handleSubmit={handleSubmit} // function to submit all the info
+                data={defaultData}
               >
                 Timeline
               </SubpagesPopup>
             )}
   
-              <WorldOverviewGrid>
-                        {events.length > 0 ? (
-                            events.map((event) => (
-                                <div key={event.id}>
-                                    <h3>{event.name}</h3>
-                                    <p>{event.description}</p>
-                                </div>
-                            ))
-                        ) : (
-                            <div>No Events found</div>
-                        )}
-              </WorldOverviewGrid>
+            <WorldOverviewGrid
+              children={events.length > 0 ? (
+                events.map((event) => (
+                  <div key={event.id}>
+                    <h3>{event.name}</h3>
+                    <p>{event.description}</p>
+                  </div>
+                ))
+              ) : (
+                <div>No Events found</div>
+              )}
+              data={events}
+              handleClick={clickFunction}
+            />
           </div>
         </div>
       </>

@@ -13,6 +13,7 @@ function Characters() {
     const navigate = useNavigate();
     const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
     const [characters, setCharacters] = useState([]);
+    const [defaultData, setDefaultData] = useState(null);
     const [isPopupOpen, setIsPopupOpen] = useState(false);
     const [characterName, setCharacterName] = useState('');
     const [characterURL, setCharacterURL] = useState('');
@@ -101,6 +102,14 @@ function Characters() {
         }
     };
 
+    const clickFunction = (data) => {
+        if(data) {
+            console.log(`Character's name: ${data.name}`);
+            setDefaultData(data);
+            setIsPopupOpen(true);
+        }
+    }
+
     return (
         <>
             <Header />
@@ -135,13 +144,14 @@ function Characters() {
                             picture={characterURL}
                             setPicture={setCharacterURL}
                             handleSubmit={handleSubmit}
+                            data={defaultData}
                         >
                             Character
                         </SubpagesPopup>
                     )}
 
-                    <WorldOverviewGrid>
-                        {characters.length > 0 ? (
+                    <WorldOverviewGrid
+                        children={characters.length > 0 ? (
                             characters.map((character) => (
                                 <div key={character.id}>
                                     <h3>{character.name}</h3>
@@ -155,7 +165,9 @@ function Characters() {
                         ) : (
                             <div>No Characters found</div>
                         )}
-                    </WorldOverviewGrid>
+                        data={characters}
+                        handleClick={clickFunction}
+                    />
                 </div>
             </div>
         </>
