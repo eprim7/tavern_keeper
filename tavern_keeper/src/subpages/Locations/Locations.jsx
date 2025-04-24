@@ -51,7 +51,7 @@ function Locations() {
 
 
   // enter all of the data into the Locations table
-  const handleSubmit = async () =>{
+  const handleSubmit = async (data) =>{
 
     // ensure the user enters into all of the input fields
     if(!locationName || !description){
@@ -59,25 +59,47 @@ function Locations() {
       return;
     } // end of if
 
-    try{
-      const{error: locationError} = await supabase
-      .from("Locations")
-      .insert([
-        {
-          worldID: worldId,
-          name: locationName,
-          description: description,
+    if(!data) {
+      try{
+        const{error: locationError} = await supabase
+        .from("Locations")
+        .insert([
+          {
+            worldID: worldId,
+            name: locationName,
+            description: description,
+          }
+        ])
+        if(locationError){
+          alert("There was an error inserting your Location")
         }
-      ])
-      if(locationError){
-        alert("There was an error inserting your Location")
+        else{
+          alert("Your Location was successfully uploaded")
+          fetchLocations();
+        }
+      } catch(error){
+        console.error("Error ", error)
       }
-      else{
-        alert("Your Location was successfully uploaded")
-        fetchLocations();
+    } else {
+      try{
+        const{error: locationError} = await supabase
+        .from("Locations")
+        .insert(
+          {
+            name: locationName,
+            description: description,
+          }
+        ).eq("id", data.id);
+        if(locationError){
+          alert("There was an error inserting your Location")
+        }
+        else{
+          alert("Your Location was successfully uploaded")
+          fetchLocations();
+        }
+      } catch(error){
+        console.error("Error ", error)
       }
-    } catch(error){
-      console.error("Error ", error)
     }
   } // end of handleSubmit
   

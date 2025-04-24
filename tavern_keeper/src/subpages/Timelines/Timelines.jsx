@@ -50,36 +50,61 @@ function Timelines() {
 
 
   // submit all of the data into the Events timeline
-  const handleSubmit = async () =>{
+  const handleSubmit = async (data) =>{
 
     if(!eventName || !description){
       alert("Please fill in all of the fields")
       return;
     } // end of if
 
+    if(!data) {
     // actually insert the data into the events table
-    try{
-      const{error: eventError} = await supabase
-      .from("Events")
-      .insert([
-        {
-          worldID: worldId,
-          name: eventName,
-          description: description,
-          startDate: startDate,
-          endDate: endDate
+      try{
+        const{error: eventError} = await supabase
+        .from("Events")
+        .insert([
+          {
+            worldID: worldId,
+            name: eventName,
+            description: description,
+            startDate: startDate,
+            endDate: endDate
+          }
+        ])
+        if(eventError){
+          alert("There was an error inserting your event")
+          console.error("error ", eventError)
         }
-      ])
-      if(eventError){
-        alert("There was an error inserting your event")
-        console.error("error ", eventError)
+        else{
+          alert("Your event was successfully uploaded")
+          fetchEvents();
+        }
+      } catch(error){
+        console.error("Error ", error)
       }
-      else{
-        alert("Your event was successfully uploaded")
-        fetchEvents();
+    } else {
+      try{
+        const{error: eventError} = await supabase
+        .from("Events")
+        .insert(
+          {
+            name: eventName,
+            description: description,
+            startDate: startDate,
+            endDate: endDate
+          }
+        ).eq("id", data.id);
+        if(eventError){
+          alert("There was an error inserting your event")
+          console.error("error ", eventError)
+        }
+        else{
+          alert("Your event was successfully uploaded")
+          fetchEvents();
+        }
+      } catch(error){
+        console.error("Error ", error)
       }
-    } catch(error){
-      console.error("Error ", error)
     }
   } // end of handleSubmit
 

@@ -123,7 +123,7 @@ const SubpagesPopup = ({
           </button>
           <button
             onClick={() => {
-              handleSubmit();
+              handleSubmit(data);
               closeModal(false);
             }}
           >

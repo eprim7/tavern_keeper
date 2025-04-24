@@ -43,11 +43,18 @@ function Characters() {
             }
         };
 
-        useEffect(() => {
-            fetchCharacters();
-          }, [worldId]);
+    useEffect(() => {
+        fetchCharacters();
+    }, [worldId]);
 
-    const handleSubmit = async () => {
+    // Function obtained from ChatGPT
+    function getFilePathFromSupabaseUrl(url) {
+        const marker = "/storage/v1/object/public/character-portraits//";
+        const index = url.indexOf(marker);
+        return index !== -1 ? url.slice(index + marker.length) : null;
+    }
+
+    const handleSubmit = async (data) => {
 
         // Ensure the user fills out all fields
         if (!characterName || !characterURL || !characterDescription) {
@@ -55,50 +62,99 @@ function Characters() {
             return;
         }
 
-        // Upload image to the storage bucket
-        const file = characterURL;
-        const fileName = `${Date.now()}-${file.name}`;
-        console.log("file name", fileName);
+        if(!data) {
+            // Upload image to the storage bucket
+            const file = characterURL;
+            const fileName = `${Date.now()}-${file.name}`;
+            console.log("file name", fileName);
 
-        const { data: uploadData, error: uploadError } = await supabase.storage
-            .from("character-portraits")
-            .upload(fileName, file);
+            const { data: uploadData, error: uploadError } = await supabase.storage
+                .from("character-portraits")
+                .upload(fileName, file);
 
-        if (uploadError) {
-            console.error("Upload error", uploadError);
-            alert("Failed to upload image");
-            return;
-        }
-
-        // gets the URL from the bucket to display in the characters table
-        const publicURLResponse = supabase.storage
-            .from('character-portraits')
-            .getPublicUrl(fileName);
-
-        const publicURL = publicURLResponse.data.publicUrl;
-
-        // Insert character data into the Characters table
-        try {
-            const { error: characterError } = await supabase
-                .from("Characters")
-                .insert([
-                    {
-                        name: characterName,
-                        description: characterDescription,
-                        pictureURL: publicURL,
-                        worldID: worldId,
-                    }
-                ]);
-
-            if (characterError) {
-                alert("There was an error inserting your character");
-                console.error("error", characterError);
-            } else {
-                alert("Your character was successfully uploaded");
-                fetchCharacters();
+            if (uploadError) {
+                console.error("Upload error", uploadError);
+                alert("Failed to upload image");
+                return;
             }
-        } catch (error) {
-            console.error("error", error);
+
+            // gets the URL from the bucket to display in the characters table
+            const publicURLResponse = supabase.storage
+                .from('character-portraits')
+                .getPublicUrl(fileName);
+
+            const publicURL = publicURLResponse.data.publicUrl;
+
+            // Insert character data into the Characters table
+            try {
+                const { error: characterError } = await supabase
+                    .from("Characters")
+                    .insert([
+                        {
+                            name: characterName,
+                            description: characterDescription,
+                            pictureURL: publicURL,
+                            worldID: worldId,
+                        }
+                    ]);
+
+                if (characterError) {
+                    alert("There was an error inserting your character");
+                    console.error("error", characterError);
+                } else {
+                    alert("Your character was successfully uploaded");
+                    fetchCharacters();
+                }
+            } catch (error) {
+                console.error("error", error);
+            }
+        } else {
+            /*
+            // Upload image to the storage bucket
+            const file = characterURL;
+            const fileName = getFilePathFromSupabaseUrl(data.pictureURL);
+            console.log("file name", fileName);
+
+            const { data: uploadData, error: uploadError } = await supabase.storage
+                .from("character-portraits")
+                .upload(fileName, file, {upsert: true});
+
+            if (uploadError) {
+                console.error("Upload error", uploadError);
+                alert("Failed to upload image");
+                return;
+            }
+
+            // gets the URL from the bucket to display in the characters table
+            const publicURLResponse = supabase.storage
+                .from('character-portraits')
+                .getPublicUrl(fileName);
+
+            const publicURL = publicURLResponse.data.publicUrl;
+            */
+
+            // Insert character data into the Characters table
+            try {
+                const { error: characterError } = await supabase
+                    .from("Characters")
+                    .update(
+                        {
+                            name: characterName,
+                            description: characterDescription,
+                            //pictureURL: publicURL,
+                        }
+                    ).eq("id", data.id);
+
+                if (characterError) {
+                    alert("There was an error inserting your character");
+                    console.error("error", characterError);
+                } else {
+                    alert("Your character was successfully uploaded");
+                    fetchCharacters();
+                }
+            } catch (error) {
+                console.error("error", error);
+            }
         }
     };
 

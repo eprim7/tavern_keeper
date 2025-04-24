@@ -51,7 +51,7 @@ function Miscellaneous() {
       }, [worldId])
 
     // submit the data into the Misc table 
-    const handleSubmit = async () => {
+    const handleSubmit = async (data) => {
 
       // ensures the user completely fills in the popup
       if(!miscName || !miscDescription){
@@ -59,28 +59,51 @@ function Miscellaneous() {
         return;
       } // end of if
 
+      if(!data) {
       // attempt to insert the data into the database
-      try{
-        const {error: miscellaneousError} = await supabase
-        .from("Misc")
-        .insert([
-          {
-            worldID: worldId,
-            name: miscName,
-            description: miscDescription
-          }
-        ])
-        // if the data was not input into the database
-        if(miscellaneousError){
-          alert("There was an error inserting your item")
-        } // end of if
-        else{
-          alert("Your item was successfully added")
-          fetchMisc();
-        } // end of else
-      }catch(error){
-        console.error("error ", error)
-      } // end of catch
+        try{
+          const {error: miscellaneousError} = await supabase
+          .from("Misc")
+          .insert([
+            {
+              worldID: worldId,
+              name: miscName,
+              description: miscDescription
+            }
+          ])
+          // if the data was not input into the database
+          if(miscellaneousError){
+            alert("There was an error inserting your item")
+          } // end of if
+          else{
+            alert("Your item was successfully added")
+            fetchMisc();
+          } // end of else
+        }catch(error){
+          console.error("error ", error)
+        } // end of catch
+      } else {
+        try{
+          const {error: miscellaneousError} = await supabase
+          .from("Misc")
+          .insert(
+            {
+              name: miscName,
+              description: miscDescription
+            }
+          ).eq("id", data.id);
+          // if the data was not input into the database
+          if(miscellaneousError){
+            alert("There was an error inserting your item")
+          } // end of if
+          else{
+            alert("Your item was successfully added")
+            fetchMisc();
+          } // end of else
+        }catch(error){
+          console.error("error ", error)
+        } // end of catch
+      }
     } // end of handleSubmit
 
     const clickFunction = (data) => {
