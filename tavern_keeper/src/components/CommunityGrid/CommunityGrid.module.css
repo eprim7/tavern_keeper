@@ -20,6 +20,12 @@
     overflow:hidden;
     
 }
+.griditem img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+}
+
 .banner {
     background: url('/public/assets/home.png') no-repeat center center;
     background-size: cover;
@@ -74,4 +80,10 @@
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
+}
+
+@media (max-width: 768px) {
+    .communitygrid {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    }
 }
