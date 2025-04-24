@@ -17,7 +17,7 @@
     box-shadow: 2px 2px 5px rgba(255, 255, 255, 0.2);
     font-size: 1.2rem;
     height: 300px;
-    overflow:auto;
+    overflow:hidden;
     
 }
 .banner {
@@ -63,4 +63,15 @@
     align-items: center;
     gap: 4px;
     padding: 2px;
+}
+.titleHeader {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+.description {
+    padding: 0px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
 }

@@ -48,8 +48,8 @@ const WorldItem = ({id, name, author, genre, description, likes}) => {
     return(
         <div className={styles.griditem}>
             <div className={styles.banner}></div>
-            <h2>{name}</h2>
-            <p style={{padding:"0px"}}>{description}</p>
+            <h2 className={styles.titleHeader}>{name}</h2>
+            <p className={styles.description}>{description}</p>
             <label className={styles.authorLabel}>{authorName}</label> <br/>
             <label className={styles.genreLabel}>{genre}</label> <br/>
             <div className={styles.bottomWrapper}>

@@ -57,10 +57,10 @@ function Account() {
             <div className={styles.worldsWrapper}>
                 {props.data.map((world, index) => {
                     return (
-                        <div key={index}>
+                        <div key={index} className={styles.worldCard}>
                             <h2>{world.title}</h2>
                             <p>{world.description}</p>
-                            <label className={styles.genreLabel}>{world.genre}</label> <br/>
+                            <label className={styles.genreLabel}>{world.genre}</label>
                             <label>{world.likes}</label>
                         </div>
                     );
@@ -85,12 +85,12 @@ function Account() {
                 </div>
             </div>
             <div className={styles.contentwrapper}>
-                <h1>About Me</h1>
-                <textarea placeholder="Tell us a little about yourself..." value={description} onChange={(e) => setDescription(e.target.value)}/> <br/>
+                <h1 className={styles.accountHeader}>About Me</h1>
+                <textarea className={styles.descriptionArea}placeholder="Tell us a little about yourself..." value={description} onChange={(e) => setDescription(e.target.value)}/> <br/>
                 <button className={styles.updateButton} onClick={handleSubmit}>Update</button>
-                <h2>Worlds Created</h2>
+                <h1 className={styles.accountHeader}>Worlds Created</h1>
                 <UserWorldContent data={userWorlds}/>
-                <h2>Total Likes</h2>
+                <h1 className={styles.accountHeader}>Total Likes</h1>
                 <label>{totalLikes}</label>
             </div>
             <ProfilePicturePopup/>
