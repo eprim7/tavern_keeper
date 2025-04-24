@@ -7,6 +7,8 @@ import UsernamePopup from "../../components/UsernamePopup/UsernamePopup"
 import { updateUserDescription } from "../../api/data_uploader";
 import { getUserByEmail } from "../../api/world_accessor";
 import { getPlayerWorlds } from "../../api/world_accessor";
+import { BsHandThumbsUp } from "react-icons/bs";
+import { Link } from "react-router-dom";
 
 function Account() {
     const [description, setDescription] = useState('');
@@ -58,10 +60,17 @@ function Account() {
                 {props.data.map((world, index) => {
                     return (
                         <div key={index} className={styles.worldCard}>
+                            <div className={styles.banner}></div>
                             <h2>{world.title}</h2>
                             <p>{world.description}</p>
                             <label className={styles.genreLabel}>{world.genre}</label>
-                            <label>{world.likes}</label>
+                            <div className={styles.bottomWrapper}>
+                                <label>{world.likes}</label> 
+                                <div className={styles.likeWrapper}><BsHandThumbsUp/></div>
+                                <Link to={`/worldOverview/${world.id}`} key={world.id}>
+                                    <button className={styles.viewButton}>view</button>
+                                </Link>
+                            </div> 
                         </div>
                     );
                 })}
@@ -86,12 +95,12 @@ function Account() {
             </div>
             <div className={styles.contentwrapper}>
                 <h1 className={styles.accountHeader}>About Me</h1>
-                <textarea className={styles.descriptionArea}placeholder="Tell us a little about yourself..." value={description} onChange={(e) => setDescription(e.target.value)}/> <br/>
+                <textarea className={styles.descriptionArea}placeholder="Tell us a little about yourself..." value={description} onChange={(e) => setDescription(e.target.value)}/> 
                 <button className={styles.updateButton} onClick={handleSubmit}>Update</button>
                 <h1 className={styles.accountHeader}>Worlds Created</h1>
                 <UserWorldContent data={userWorlds}/>
                 <h1 className={styles.accountHeader}>Total Likes</h1>
-                <label>{totalLikes}</label>
+                <h2>{totalLikes}</h2>
             </div>
             <ProfilePicturePopup/>
             {userPopupOpen && <UsernamePopup closeModal={setUserPopupOpen} refreshName={fetchUser}/>}
