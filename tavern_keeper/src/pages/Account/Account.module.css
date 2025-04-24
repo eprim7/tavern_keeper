@@ -20,7 +20,7 @@
     gap: 15px;
 }
 .pencil {
-    padding-top: 7px;
+    padding-top: 15px;
 }
 .pencilbutton {
     width: 2.5em;
@@ -50,5 +50,17 @@
 }
 .profileButton:hover {
     opacity: .5;
+    cursor: pointer;
+}
+.updateButton {
+    background: linear-gradient(45deg, #ff8c00, #ffcc00);
+    border-radius: 5px;
+    color: white;
+    border: none;
+    width: 70px;
+    height: 30px;
+}
+.updateButton:hover {
+    transform: scale(1.1);
     cursor: pointer;
 }

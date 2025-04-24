@@ -44,7 +44,18 @@ function CommunityPreview(){
         }
     }
     async function fetchData(worldid) {
-        const charData = await getData(dataOptions.CHARACTERS, worldid);
+        const fetchChars = async () => {
+            const { data, error } = await supabase
+              .from("Characters")
+              .select("*")
+              .eq("worldID", currentWorld.id);
+      
+            if (error) {
+              console.error("Error fetching characters:", error);
+            } else {
+              return data;
+            }
+        };
         const fetchMaps = async () => {
             const { data, error } = await supabase
               .from("Maps")
@@ -62,7 +73,7 @@ function CommunityPreview(){
             const { data, error } = await supabase
                 .from("Organizations")
                 .select("*")
-                .eq("WorldID", currentWorld.id);
+                .eq("worldID", currentWorld.id);
 
             if (error) {
                 console.error("Error fetching organizations:", error);
@@ -77,7 +88,7 @@ function CommunityPreview(){
                 .eq("worldID", currentWorld.id);
 
             if (error) {
-                console.error("Error fetching characters:", error);
+                console.error("Error fetching locations:", error);
             } else {
                 return data;
             }
@@ -89,7 +100,7 @@ function CommunityPreview(){
                 .eq("worldID", currentWorld.id);
 
             if (error) {
-                console.error("Error fetching characters:", error);
+                console.error("Error fetching events:", error);
             } else {
                 return data;
             }
@@ -107,14 +118,13 @@ function CommunityPreview(){
               return data; // set the array with the data from the database
             } // end of else
         } // end of fetchMisc
-
+        const charData = await fetchChars();
         const tempmapData = await fetchMaps();
         const orgData = await fetchOrganizations();
         const locData = await fetchLocations();
         const timeData = await fetchEvents();
         const miscData = await fetchMisc();
         
-        //console.log("event data", eventData);
         if (charData && tempmapData && orgData && locData && timeData && miscData) {
             setCharacterData(charData);
             setMapData(tempmapData);
@@ -147,12 +157,12 @@ function CommunityPreview(){
                     }
                     else if(props.name == "Characters"){
                         return (
-                            <div key={index} className={styles.entryImgCard}><h2>{entry.Name}</h2> {entry.Description} <img src={entry.PortraitURL} className={styles.charImg}></img> </div>
+                            <div key={index} className={styles.entryImgCard}><h2>{entry.name}</h2> {entry.description} <img src={entry.pictureURL} className={styles.charImg}></img> </div>
                         );
                     }
                     else if(props.name == "Organizations"){
                         return (
-                            <div key={index} className={styles.entryCard}><h2>{entry.Name}</h2> {entry.Description}</div>
+                            <div key={index} className={styles.entryCard}><h2>{entry.name}</h2> {entry.description}</div>
                         );
                     } else if (props.name == "Locations") {
                         return (

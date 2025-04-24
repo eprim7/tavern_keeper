@@ -59,3 +59,15 @@ export async function getWorldDataByID(id) {
         return data;
     }
 }
+
+export async function getUserByEmail(email) {
+    const {data, error} = await supabase.from("User").select("*").eq("email", email).single();
+      
+    if(error || !data) {
+        console.log("Failed to retrieve user information. ", error);
+        console.log("email from database", email)
+        console.log("user: ", data)
+    } else {
+        return data;
+    }
+}
