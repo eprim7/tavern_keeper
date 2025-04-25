@@ -209,3 +209,27 @@
     opacity: 0;
     pointer-events: none;
 }
+@media (max-width: 768px) {
+    .controlsWrapper {
+      flex-direction: column;
+      gap: 15px;
+    }
+    .searchWrapper {
+        margin: 0 1rem;
+        width: 100%;
+        justify-content: space-between;
+      }
+    
+      .search {
+        flex: 1;
+        min-width: 0;
+        margin-right: 10px;
+      }
+    .filtermenu,
+  .filtersubmenu {
+    right: 1rem;
+    top: 12rem;
+    width: 90vw;
+  }
+  }
+  
