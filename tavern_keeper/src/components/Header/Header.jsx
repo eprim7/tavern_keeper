@@ -62,6 +62,7 @@ function Header() {
     console.log("Logging out...");
     googleLogout();
     localStorage.removeItem("isLoggedIn");
+    localStorage.removeItem("email");
     setIsLoggedIn(false); // Immediately update the state on logout
     setShowDropdown(false);
     navigate('/signin'); // navigate them to the signin page
