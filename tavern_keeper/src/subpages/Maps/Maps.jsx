@@ -105,7 +105,10 @@ function Maps() {
   };
 
   const clickFunction = (map) => {
-    console.log(map);
+    if (!map || !map.pictureURL || !map.name) {
+      console.error("Invalid map object:", map);
+      return;
+    }
 setSelectedMap(map);
  setIsMapPopupOpen(true) }
 
