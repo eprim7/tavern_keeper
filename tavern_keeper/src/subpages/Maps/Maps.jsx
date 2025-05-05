@@ -105,6 +105,7 @@ function Maps() {
   };
 
   const clickFunction = (map) => {
+    console.log(map);
 setSelectedMap(map);
  setIsMapPopupOpen(true) }
 
