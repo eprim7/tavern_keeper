@@ -7,6 +7,8 @@ import supabase from "../../api/supabase-client";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+import MapPopup from "../../components/MapPopup/MapPopup";
+
 
 function Maps() {
   const navigate = useNavigate();
@@ -19,6 +21,9 @@ function Maps() {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [mapName, setMapName] = useState('');
   const [mapURL, setMapURL] = useState('');
+
+  const [isMapPopupOpen, setIsMapPopupOpen] = useState(false);
+  const [selectedMap, setSelectedMap] = useState(null);
 
   // Ensure the user is signed in
   useEffect(() => {
@@ -48,7 +53,7 @@ function Maps() {
   }, [worldId]);
 
   // submitting the data into the database
-  const handleSubmit = async (data) => {
+  const handleSubmit = async () => {
 
     if (!mapName || !mapURL) {
       alert("Please fill in all of the fields");
@@ -99,9 +104,9 @@ function Maps() {
     }
   };
 
-  const clickFunction = () => {
-    console.log("this is the passed onClick.");
-  }
+  const clickFunction = (map) => {
+setSelectedMap(map);
+ setIsMapPopupOpen(true) }
 
   return (
     <>
@@ -115,14 +120,14 @@ function Maps() {
             >
               Add new Map
             </button>
-
+  
             <Link to={`/worldOverview/${worldId}`}>
               <button className={styles.button}>
                 Navigate back to the world Overview page
               </button>
             </Link>
           </div>
-
+  
           {isPopupOpen && (
             <SubpagesPopup
               closeModal={setIsPopupOpen}
@@ -139,7 +144,7 @@ function Maps() {
               Map
             </SubpagesPopup>
           )}
-
+  
           <WorldOverviewGrid
             children={maps.length > 0 ? (
               maps.map((map) => (
@@ -149,15 +154,26 @@ function Maps() {
                     src={map.pictureURL}
                     alt={map.name}
                     className={styles.mapImage}
+                    onClick={() => {
+                     clickFunction(map)
+                    }}
                   />
                 </div>
               ))
             ) : (
               <div>No Maps were found</div>
             )}
-
+  
             handleClick={clickFunction}
           />
+  
+          {isMapPopupOpen && selectedMap && (
+            <MapPopup
+            mapUrl={selectedMap.pictureURL} 
+            mapName={selectedMap.name}      
+            closeModal={() => setIsMapPopupOpen(false)}
+            />
+          )}
         </div>
       </div>
     </>
