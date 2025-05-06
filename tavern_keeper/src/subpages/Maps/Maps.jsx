@@ -173,10 +173,10 @@ setSelectedMap(map);
   
           {isMapPopupOpen && selectedMap && (
             <MapPopup
-            mapUrl={selectedMap.pictureURL} 
-            mapName={selectedMap.name}      
-            closeModal={() => setIsMapPopupOpen(false)}
-            />
+            mapUrl={selectedMap.pictureURL}
+            mapName={selectedMap.name}
+            onClose={() => setIsMapPopupOpen(false)}
+          />
           )}
         </div>
       </div>
