@@ -47,7 +47,7 @@ function Community() {
   }
   const filterByLikes = () => {
     console.log("filtering by: likes");
-    const sorted = [...allCommunityData].sort((a, b) => b.likes - a.likes);
+    const sorted = [...allCommunityData].sort((a, b) => b.likes_arr.length - a.likes_arr.length);
     setCommunityData(sorted);
     setOpen(false);
     setGenreOpen(false);

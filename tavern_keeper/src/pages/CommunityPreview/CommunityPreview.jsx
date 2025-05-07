@@ -5,7 +5,7 @@ import { getWorldDataByID } from "../../api/world_accessor";
 import { getUserByUserID } from "../../api/world_accessor";
 import { useEffect } from "react";
 import { useState } from "react";
-import { getData } from "../../api/data_accessor";
+import { getCurrentUserData, getData, swapLike } from "../../api/data_accessor";
 import { dataOptions } from "../../api/data_accessor";
 import supabase from "../../api/supabase-client";
 import { BsHandThumbsUp } from "react-icons/bs";
@@ -32,6 +32,16 @@ function CommunityPreview(){
         const world = await getWorldDataByID(id);
         if(world != null){
             setCurrentWorld(world);
+        } else {
+            return;
+        }
+
+        let userData = await getCurrentUserData();
+
+        if(userData) {
+            console.log(world.likes_arr);
+            console.log(world.likes_arr.includes(userData.id))
+            setLiked(world.likes_arr.includes(userData.id));
         }
     }
     useEffect(() => {
@@ -198,9 +208,23 @@ function CommunityPreview(){
             </div>
         );
     }
-    function Like() {
-        //need database functionality
-        setLiked(!liked);
+    async function Like() {
+
+        if(!localStorage.getItem("isLoggedIn")) {
+            alert("You must log in before you can use this feature.");
+            return;
+        }
+
+        let userData = await getCurrentUserData();
+
+        if(userData) {
+            if(liked) {
+                swapLike(false, currentWorld.id, userData.id);
+            } else {
+                swapLike(true, currentWorld.id, userData.id);
+            }
+            setLiked(!liked);
+        }
     }
     function Banner() {
         return(

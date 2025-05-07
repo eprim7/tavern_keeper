@@ -20,7 +20,7 @@ const CommunityGrid = ({ communityData }) => {
                         author={world.userID}
                         genre={world.genre}
                         description={world.description}
-                        likes = {world.likes}
+                        likes = {world.likes_arr.length}
                     />
                 );
             })}
