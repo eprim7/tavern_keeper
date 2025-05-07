@@ -10,6 +10,12 @@ import { dataOptions } from "../../api/data_accessor";
 import supabase from "../../api/supabase-client";
 import { BsHandThumbsUp } from "react-icons/bs";
 import { BsHandThumbsUpFill } from "react-icons/bs";
+import { CiMap } from "react-icons/ci";
+import { GiCharacter } from "react-icons/gi";
+import { GoOrganization } from "react-icons/go";
+import { GrLocationPin } from "react-icons/gr";
+import { FaHistory } from "react-icons/fa";
+import { MdMiscellaneousServices } from "react-icons/md";
 function CommunityPreview(){
     const { id } = useParams()
     const [currentWorld, setCurrentWorld] = useState(null);
@@ -162,19 +168,19 @@ function CommunityPreview(){
                     }
                     else if(props.name == "Organizations"){
                         return (
-                            <div key={index} className={styles.entryCard}><h2>{entry.name}</h2> {entry.description}</div>
+                            <div key={index} className={styles.entryCard}><h2>{entry.name}</h2><GoOrganization className={styles.icon}/> {entry.description}</div>
                         );
                     } else if (props.name == "Locations") {
                         return (
-                            <div key={index} className={styles.entryCard}><h2>{entry.name}</h2> {entry.description}</div>
+                            <div key={index} className={styles.entryCard}><h2>{entry.name}</h2><GrLocationPin className={styles.icon}/> {entry.description}</div>
                         );
                     } else if (props.name == "Timeline") {
                         return (
-                            <div key={index} className={styles.entryCard}><h2>{entry.name}</h2> {entry.description} <br/> {entry.startDate} - {entry.endDate} </div>
+                            <div key={index} className={styles.entryCard}><h2>{entry.name}</h2><FaHistory className={styles.icon}/> {entry.description} <br/> {entry.startDate} - {entry.endDate} </div>
                         );
                     } else {
                         return (
-                            <div key={index} className={styles.entryCard}><h2>{entry.name}</h2> {entry.description} </div>
+                            <div key={index} className={styles.entryCard}><h2>{entry.name}</h2><MdMiscellaneousServices className={styles.icon}/> {entry.description} </div>
                         );
                     }
                     
@@ -196,12 +202,26 @@ function CommunityPreview(){
         //need database functionality
         setLiked(!liked);
     }
+    function Banner() {
+        return(
+            
+            <div className={(currentWorld.genre == "Sci-Fi") ? styles.scifibannerwrapper :
+                (currentWorld.genre == "Horror") ? styles.horrorbannerwrapper :
+                (currentWorld.genre == "Comedy") ? styles.comedybannerwrapper :
+                (currentWorld.genre == "Romance") ? styles.romancebannerwrapper :
+                (currentWorld.genre == "Mystery") ? styles.mysterybannerwrapper :
+                (currentWorld.genre == "Thriller") ? styles.thrillerbannerwrapper :
+                (currentWorld.genre == "Nonfiction") ? styles.nonfictionbannerwrapper :
+                styles.bannerwrapper
+            }></div>
+        );
+    }
     
 
     return(
         <>
         <Header />
-        <div className={styles.bannerwrapper}></div>
+        {currentWorld == null ? <h1>Loading...</h1> : <Banner/>}
         <div className={styles.introwrapper}>
             <h1>{currentWorld == null ? "Loading..." : currentWorld.title}</h1>
             <label>author</label> <br/>
@@ -209,7 +229,7 @@ function CommunityPreview(){
             <p>{currentWorld == null ? "Loading..." : currentWorld.description}</p>
         </div>
         <div className={styles.contentwrapper}>
-            <h1 className={styles.sectionHeader}>Maps</h1>
+            <h1 className={styles.sectionHeader}>Maps</h1> 
             <Section name="Maps" data={mapData}/>
             <h1 className={styles.sectionHeader}>Characters</h1>
             <Section name="Characters" data={characterData}/>

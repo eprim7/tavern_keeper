@@ -60,9 +60,16 @@ function Account() {
                 {props.data.map((world, index) => {
                     return (
                         <div key={index} className={styles.worldCard}>
-                            <div className={styles.banner}></div>
-                            <h2>{world.title}</h2>
-                            <p>{world.description}</p>
+                            <div className={(world.genre == "Sci-Fi") ? styles.scifiBanner :
+                                            (world.genre == "Horror") ? styles.horrorBanner :
+                                            (world.genre == "Comedy") ? styles.comedyBanner :
+                                            (world.genre == "Romance") ? styles.romanceBanner :
+                                            (world.genre == "Thriller") ? styles.thrillerBanner :
+                                            (world.genre == "Nonfiction") ? styles.nonfictionBanner :
+                                            (world.genre == "Mystery") ? styles.mysteryBanner :
+                                            styles.banner}></div>
+                            <h2 className={styles.titleHeader}>{world.title}</h2>
+                            <p className={styles.description}>{world.description}</p>
                             <label className={styles.genreLabel}>{world.genre}</label>
                             <div className={styles.bottomWrapper}>
                                 <label>{world.likes}</label> 

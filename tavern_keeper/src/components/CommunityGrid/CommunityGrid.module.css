@@ -33,6 +33,55 @@
     height: 125px;
     margin-bottom: 10px;
 }
+.scifiBanner {
+    background: url('/public/assets/Sci-Fi.png') no-repeat center center;
+    background-size: cover;
+    width: 100%;
+    height: 125px;
+    margin-bottom: 10px;
+}
+.horrorBanner {
+    background: url('/public/assets/Horror.png') no-repeat center center;
+    background-size: cover;
+    width: 100%;
+    height: 125px;
+    margin-bottom: 10px;
+}
+.comedyBanner {
+    background: url('/public/assets/Comedy.png') no-repeat center center;
+    background-size: cover;
+    width: 100%;
+    height: 125px;
+    margin-bottom: 10px;
+}
+.romanceBanner {
+    background: url('/public/assets/Romance.png') no-repeat center center;
+    background-size: cover;
+    width: 100%;
+    height: 125px;
+    margin-bottom: 10px;
+}
+.thrillerBanner {
+    background: url('/public/assets/Thriller.png') no-repeat center center;
+    background-size: cover;
+    width: 100%;
+    height: 125px;
+    margin-bottom: 10px;
+}
+.nonfictionBanner {
+    background: url('/public/assets/Nonfiction.png') no-repeat center center;
+    background-size: cover;
+    width: 100%;
+    height: 125px;
+    margin-bottom: 10px;
+}
+.mysteryBanner {
+    background: url('/public/assets/Mysery.png') no-repeat center center;
+    background-size: cover;
+    width: 100%;
+    height: 125px;
+    margin-bottom: 10px;
+}
 
 .genreLabel {
     font-size: 1rem;

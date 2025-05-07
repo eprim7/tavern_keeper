@@ -11,6 +11,97 @@
     color: white;
     border: 5px solid black;
 }
+.scifibannerwrapper {
+    background: url('/public/assets/Sci-Fi.png') no-repeat center center;
+    background-size: cover;
+    width: 100%;
+    height: 450px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 50px;
+    padding: 20px;
+    color: white;
+    border: 5px solid black;
+}
+.horrorbannerwrapper {
+    background: url('/public/assets/Horror.png') no-repeat center center;
+    background-size: cover;
+    width: 100%;
+    height: 450px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 50px;
+    padding: 20px;
+    color: white;
+    border: 5px solid black;
+}
+.comedybannerwrapper {
+    background: url('/public/assets/Comedy.png') no-repeat center center;
+    background-size: cover;
+    width: 100%;
+    height: 450px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 50px;
+    padding: 20px;
+    color: white;
+    border: 5px solid black;
+}
+.romancebannerwrapper {
+    background: url('/public/assets/Romance.png') no-repeat center center;
+    background-size: cover;
+    width: 100%;
+    height: 450px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 50px;
+    padding: 20px;
+    color: white;
+    border: 5px solid black;
+}
+.mysterybannerwrapper {
+    background: url('/public/assets/Mysery.png') no-repeat center center;
+    background-size: cover;
+    width: 100%;
+    height: 450px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 50px;
+    padding: 20px;
+    color: white;
+    border: 5px solid black;
+}
+.thrillerbannerwrapper {
+    background: url('/public/assets/Thriller.png') no-repeat center center;
+    background-size: cover;
+    width: 100%;
+    height: 450px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 50px;
+    padding: 20px;
+    color: white;
+    border: 5px solid black;
+}
+.nonfictionbannerwrapper {
+    background: url('/public/assets/Nonfiction.png') no-repeat center center;
+    background-size: cover;
+    width: 100%;
+    height: 450px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 50px;
+    padding: 20px;
+    color: white;
+    border: 5px solid black;
+}
 .introwrapper {
     width: 100%;
     text-align: center;
@@ -66,7 +157,7 @@
     text-align: center;
     box-shadow: 2px 2px 5px rgba(255, 255, 255, 0.2);
     font-size: 1.2rem;
-    overflow: hidden;
+    overflow: scroll;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -85,7 +176,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    height: 150px;
+    padding-bottom: 25px;
 }
 .sectionHeader {
     border-bottom: 3px solid black;
@@ -113,6 +204,15 @@
     transform: scale(1.10);
     cursor: pointer;
 }
+.icon {
+    font-size: 2rem;
+    color: white;
+    transition: transform 0.2s ease, text-shadow 0.2s ease, color 0.2s ease;
+    flex-shrink: 0;
+    width: 40px;
+    text-align: center;
+}
+
 
 @media (max-width: 768px) {
     .sectionwrapper {

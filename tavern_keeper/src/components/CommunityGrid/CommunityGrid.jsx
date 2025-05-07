@@ -47,7 +47,15 @@ const WorldItem = ({id, name, author, genre, description, likes}) => {
 
     return(
         <div className={styles.griditem}>
-            <div className={styles.banner}></div>
+            <div className={(genre == "Sci-Fi") ? styles.scifiBanner :
+                (genre == "Horror") ? styles.horrorBanner :
+                (genre == "Comedy") ? styles.comedyBanner :
+                (genre == "Romance") ? styles.romanceBanner :
+                (genre == "Thriller") ? styles.thrillerBanner :
+                (genre == "Nonfiction") ? styles.nonfictionBanner :
+                (genre == "Mystery") ? styles.mysteryBanner :
+                styles.banner
+            }></div>
             <h2 className={styles.titleHeader}>{name}</h2>
             <p className={styles.description}>{description}</p>
             <label className={styles.authorLabel}>{authorName}</label> <br/>
